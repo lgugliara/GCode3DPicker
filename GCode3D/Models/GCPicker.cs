@@ -60,7 +60,6 @@ namespace GCode3D.Models
         public List<ExplorerElement> Files
         {
             get => [.. Directory.GetFiles(CurrentFolder.Path)
-                .Select(path => path.Split("\\").LastOrDefault() ?? string.Empty)
                 .Select(filename => new ExplorerElement
                 {
                     Path = filename,

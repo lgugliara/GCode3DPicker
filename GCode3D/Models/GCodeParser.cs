@@ -8,9 +8,9 @@ namespace GCode3D
 {
     public class GCodeParser
     {
-        public static GCProgram ParseFile(string filePath)
+        public static GCProgram ParseFile(ExplorerElement file)
         {
-            StreamReader sr = new StreamReader(filePath);
+            StreamReader sr = new StreamReader(file.Path);
             List<StatelessCommand> splinePoints = [];
             var line = sr.ReadLine();
             Vector3 currentPoint = new Vector3(0, 0, 0);

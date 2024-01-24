@@ -29,7 +29,7 @@
 
         public bool IsRoot
         {
-            get => Path.LastIndexOf('/') < 0;
+            get => Type == ExplorerElementType.Folder && Path.LastIndexOf('/') < 0;
         }
         public ExplorerElement PreviousFolder
         {
