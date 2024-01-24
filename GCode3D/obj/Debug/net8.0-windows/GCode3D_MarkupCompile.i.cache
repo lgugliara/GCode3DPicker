@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\PrimaPower\rd\GCode3D\GCode3D\obj\Debug\net8.0-windows\
+C:\PrimaPower\GCode3DPicker\GCode3D\obj\Debug\net8.0-windows\
 GCode3D
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\PrimaPower\rd\GCode3D\GCode3D\App.xaml
+C:\PrimaPower\GCode3DPicker\GCode3D\App.xaml
 11407045341
 
 13499752228
 2461739121253
 MainWindow.xaml;
 
-True
+False
 
