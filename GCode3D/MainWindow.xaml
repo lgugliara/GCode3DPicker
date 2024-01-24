@@ -45,7 +45,7 @@
                 <!-- Folders and files -->
                 <ListBox Grid.Row="1" Foreground="White" BorderThickness="0"
                     Background="Transparent"
-                    ItemsSource="{Binding Picker.Folders}" Name="programsListBox"
+                    ItemsSource="{Binding Picker.Content}" Name="programsListBox"
                     SelectionChanged="ListBox_SelectionChanged">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">

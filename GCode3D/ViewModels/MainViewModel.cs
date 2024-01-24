@@ -40,7 +40,7 @@ namespace GCode3D
             };
 
             // Load the program from the file
-            Program = GCodeParser.ParseFile(Picker.CurrentFile.Path);
+            Program = GCodeParser.ParseFile(Picker.CurrentFile);
 
             // Update the mesh with the new program data
             Mesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
