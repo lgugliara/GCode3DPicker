@@ -6,6 +6,8 @@ GCode file picker with 3D preview
 - .NET 8.0
 - MahApps.Metro.IconPacks
   (https://github.com/MahApps/MahApps.Metro.IconPacks)
+- Helix Toolkit
+ (https://github.com/helix-toolkit/helix-toolkit)
 
 ## Goals
 - Display a file picker that updates whenever a file is created/modified/deleted/renamed within the current folder.
