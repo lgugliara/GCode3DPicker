@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-
-namespace GCode3D.Models
+﻿namespace GCode3D.Models
 {
     public enum ExplorerElementType
     {
@@ -9,25 +6,15 @@ namespace GCode3D.Models
         Folder
     }
 
-    public class ExplorerElement : INotifyPropertyChanged
+    public class ExplorerElement
     {
         public ExplorerElementType Type { get; set; }
 
-        private string _path = string.Empty;
+        private string _Path = string.Empty;
         public string Path
         {
-            get => _path.Replace("\\", "/");
-            set
-            {
-                if (_path != value)
-                {
-                    _path = (value ?? string.Empty).Replace("\\", "/");
-
-                    Debug.Print($"{nameof(Filename)}: {Filename}");
-                    OnPropertyChanged(nameof(Path));
-                    OnPropertyChanged(nameof(Filename));
-                }
-            }
+            get => _Path.Replace("\\", "/");
+            set => _Path = (value ?? string.Empty).Replace("\\", "/");
         }
 
         public string Filename
@@ -39,14 +26,5 @@ namespace GCode3D.Models
                     return Path.Split("/").LastOrDefault() ?? string.Empty;
             }
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
     }
 }

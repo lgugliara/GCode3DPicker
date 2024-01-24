@@ -53,7 +53,7 @@ namespace GCode3D
                 Type = ExplorerElementType.Folder
             };
 
-            OnPropertyChanged(nameof(Picker.CurrentFolder));
+            OnPropertyChanged(nameof(Picker));
         }
 
         public void LoadWatcher(object sender, FileSystemEventArgs e)
