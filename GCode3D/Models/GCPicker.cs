@@ -11,10 +11,10 @@ namespace GCode3D.Models
     public class GCPicker
     {
         private static readonly ExplorerElement DefaultProgram = new() {
-            Path = @"C:\PrimaPower\rd\GCode3D\GCode3D\resources\ATR_77_001_Fiera_NP.gcode"
+            Path = @"C:/GCode3DPicker/GCode3D/resources/gcodes/example_1.gcode"
         };
         private static readonly ExplorerElement DefaultFolder = new() {
-            Path = @"C:\PrimaPower\rd\GCode3D\GCode3D\resources\",
+            Path = @"C:/GCode3DPicker/GCode3D/resources/gcodes",
             Type = ExplorerElementType.Folder
         };
         

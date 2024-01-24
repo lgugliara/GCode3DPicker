@@ -8454,11 +8454,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\PrimaPower\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
+      "projectUniqueName": "C:\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
       "projectName": "GCode3D",
-      "projectPath": "C:\\PrimaPower\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
+      "projectPath": "C:\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
       "packagesPath": "C:\\Users\\lorenzo.g\\.nuget\\packages\\",
-      "outputPath": "C:\\PrimaPower\\GCode3DPicker\\GCode3D\\obj\\",
+      "outputPath": "C:\\GCode3DPicker\\GCode3D\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lorenzo.g\\AppData\\Roaming\\NuGet\\NuGet.Config",

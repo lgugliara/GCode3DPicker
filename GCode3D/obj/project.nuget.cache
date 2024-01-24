@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AvqYRf+PIER4CyxcX5rXRsU3OgqbhiOI932wf8xzpiWjIunZ85/5F4tQvt0mIs+NtvAxWV5hEb3qDp/xtTOLLg==",
+  "dgSpecHash": "MjKoqAbAuzaLvXEu57LDMX/1pbve1CB7kSIgz+0skpLdoVSOVoy7qIDaIsdKQaIpDaNUwaV2RxDdQThDqvPCuw==",
   "success": true,
-  "projectFilePath": "C:\\PrimaPower\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
+  "projectFilePath": "C:\\GCode3DPicker\\GCode3D\\GCode3D.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lorenzo.g\\.nuget\\packages\\assimpnet\\5.0.0-beta1\\assimpnet.5.0.0-beta1.nupkg.sha512",
     "C:\\Users\\lorenzo.g\\.nuget\\packages\\avalonia\\11.0.0\\avalonia.11.0.0.nupkg.sha512",
