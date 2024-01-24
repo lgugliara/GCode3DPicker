@@ -36,5 +36,9 @@ namespace GCode3D
         {
             viewModel.LoadFolder();
         }
+
+        private void EditProgram_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
