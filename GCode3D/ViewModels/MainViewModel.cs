@@ -29,12 +29,16 @@ namespace GCode3D
             Picker.Watcher.Created += LoadWatcher;
             Picker.Watcher.Deleted += LoadWatcher;
             Picker.Watcher.Changed += LoadWatcher;
-            
-            LoadProgram();
         }
         
-        public void LoadProgram()
+        public void LoadProgram(string to)
         {
+            Picker.CurrentFile = new()
+            {
+                Path = to,
+                Type = ExplorerElementType.File
+            };
+
             // Load the program from the file
             Program = GCodeParser.ParseFile(Picker.CurrentFile.Path);
 
@@ -45,21 +49,22 @@ namespace GCode3D
             OnPropertyChanged(nameof(Mesh));
         }
 
-        public void NavigateBack()
+        public void LoadFolder(string? to = null)
         {
-            Picker.CurrentFolder = new()
-            {
-                Path = Picker.CurrentFolder.Path[..Math.Max(Picker.CurrentFolder.Path.LastIndexOf('/'), 0)],
-                Type = ExplorerElementType.Folder
-            };
+            Picker.CurrentFolder = string.IsNullOrEmpty(to) ?
+                Picker.CurrentFolder.PreviousFolder : 
+                new()
+                {
+                    Path = to,
+                    Type = ExplorerElementType.Folder
+                };
 
             OnPropertyChanged(nameof(Picker));
         }
 
         public void LoadWatcher(object sender, FileSystemEventArgs e)
         {
-            OnPropertyChanged(nameof(Picker.Folders));
-            OnPropertyChanged(nameof(Picker.Files));
+            OnPropertyChanged(nameof(Picker));
         }
         
         #region INotifyPropertyChanged

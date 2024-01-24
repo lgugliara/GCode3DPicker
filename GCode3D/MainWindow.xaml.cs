@@ -21,22 +21,20 @@ namespace GCode3D
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selected = programsListBox.SelectedItem as ExplorerElement;
-            if (selected == null)
+            if (programsListBox.SelectedItem is not ExplorerElement selected)
                 return;
 
             // If the selected item is a folder, update the current folder
-            if(selected.Type == ExplorerElementType.Folder)
-                viewModel.Picker.CurrentFolder = selected;
-
+            if (selected.Type == ExplorerElementType.Folder)
+                viewModel.LoadFolder(selected.Path);
             // If the selected item is a file, update the current file
             else
-                viewModel.Picker.CurrentFile = selected;
+                viewModel.LoadProgram(selected.Path);
         }
 
         private void PickerBack_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.NavigateBack();
+            viewModel.LoadFolder();
         }
     }
 }

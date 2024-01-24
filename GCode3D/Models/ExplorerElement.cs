@@ -26,5 +26,18 @@
                     return Path.Split("/").LastOrDefault() ?? string.Empty;
             }
         }
+
+        public bool IsRoot
+        {
+            get => Path.LastIndexOf('/') < 0;
+        }
+        public ExplorerElement PreviousFolder
+        {
+            get => IsRoot ? this : new ExplorerElement
+                {
+                    Path = Path[..Path.LastIndexOf('/')],
+                    Type = ExplorerElementType.Folder
+                };
+        }
     }
 }
