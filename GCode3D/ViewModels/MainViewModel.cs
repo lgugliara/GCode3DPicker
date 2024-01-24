@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using HelixToolkit.Wpf.SharpDX;
 using GCode3D.Models;
 using System.IO;
+using System.Windows;
 
 namespace GCode3D
 {
@@ -39,14 +40,17 @@ namespace GCode3D
                 Type = ExplorerElementType.File
             };
 
-            // Load the program from the file
-            Program = GCodeParser.ParseFile(Picker.CurrentFile);
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                // Load the program from the file
+                Program = GCodeParser.ParseFile(Picker.CurrentFile);
 
-            // Update the mesh with the new program data
-            Mesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
+                // Update the mesh with the new program data
+                Mesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
             
-            OnPropertyChanged(nameof(Program));
-            OnPropertyChanged(nameof(Mesh));
+                OnPropertyChanged(nameof(Program));
+                OnPropertyChanged(nameof(Mesh));
+            });
         }
 
         public void LoadFolder(string? to = null)
