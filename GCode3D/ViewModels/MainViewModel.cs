@@ -29,7 +29,7 @@ namespace GCode3D
             Picker.Watcher.Created += LoadWatcher;
             Picker.Watcher.Deleted += LoadWatcher;
             Picker.Watcher.Changed += LoadWatcher;
-
+            
             LoadProgram();
         }
         
@@ -53,10 +53,8 @@ namespace GCode3D
                 Type = ExplorerElementType.Folder
             };
 
-            Console.WriteLine(Picker.CurrentFolder.Path);
-            
             OnPropertyChanged(nameof(Picker.CurrentFolder));
-        }   
+        }
 
         public void LoadWatcher(object sender, FileSystemEventArgs e)
         {
