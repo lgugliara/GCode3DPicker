@@ -28,14 +28,14 @@ namespace GCode3D
 
                         // Add the new point to the spline
                         var newPoint = new Vector3(
-                            ParseCoordinate(parts.First(part => part.StartsWith("X")), currentPoint.X),
-                            ParseCoordinate(parts.First(part => part.StartsWith("Y")), currentPoint.Y),
-                            ParseCoordinate(parts.First(part => part.StartsWith("Z")), currentPoint.Z)
+                            ParseCoordinate(parts.First(part => part.StartsWith('X')), 0),
+                            ParseCoordinate(parts.First(part => part.StartsWith('Y')), 0),
+                            ParseCoordinate(parts.First(part => part.StartsWith('Z')), 0)
                         );
 
                         commands.Add(new StatelessCommand {
                             From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
-                            To = newPoint,
+                            To = currentPoint + newPoint,
                             Code = line
                         });
                         currentPoint += newPoint;
@@ -50,7 +50,7 @@ namespace GCode3D
 
         private static float ParseCoordinate(string value, float defaultValue)
         {
-            if (float.TryParse(value.Substring(2), CultureInfo.InvariantCulture, out float result))
+            if (float.TryParse(value[1..], CultureInfo.InvariantCulture, out float result))
                 return result;
             return defaultValue;
         }

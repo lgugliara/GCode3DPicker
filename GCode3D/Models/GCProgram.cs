@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Diagnostics;
 using GCode3D.Models.Interfaces;
 using HelixToolkit.SharpDX.Core;
 using SharpDX;
@@ -66,11 +60,13 @@ namespace GCode3D.Models
                     .Any(v => {
                         CurrentCommand = v.command;
                         CurrentIndex = v.i;
+                        Stopwatch.Restart();
 
                         v.command.IsRunning = true;
                         callback.DynamicInvoke(v.command);
                         Task.Delay(1000).Wait();
 
+                        Stopwatch.Stop();
                         if(!IsRunning)
                             return true;
 
