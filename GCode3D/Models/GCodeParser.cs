@@ -2,7 +2,6 @@
 using System.Globalization;
 using SharpDX;
 using System.IO;
-using System.Windows;
 
 namespace GCode3D
 {
@@ -10,10 +9,10 @@ namespace GCode3D
     {
         public static GCProgram ParseFile(ExplorerElement file)
         {
-            StreamReader sr = new StreamReader(file.Path);
-            List<StatelessCommand> splinePoints = [];
+            StreamReader sr = new(file.Path);
+            List<StatelessCommand> commands = [];
             var line = sr.ReadLine();
-            Vector3 currentPoint = new Vector3(0, 0, 0);
+            Vector3 currentPoint = new();
 
             while (line != null)
             {
@@ -34,9 +33,10 @@ namespace GCode3D
                             ParseCoordinate(parts.First(part => part.StartsWith("Z")), currentPoint.Z)
                         );
 
-                        splinePoints.Add(new StatelessCommand {
+                        commands.Add(new StatelessCommand {
                             From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
-                            To = newPoint
+                            To = newPoint,
+                            Code = line
                         });
                         currentPoint += newPoint;
                     }
@@ -45,7 +45,7 @@ namespace GCode3D
                 line = sr.ReadLine();
             }
 
-            return new GCProgram { Commands = splinePoints };
+            return new GCProgram { Commands = commands };
         }
 
         private static float ParseCoordinate(string value, float defaultValue)

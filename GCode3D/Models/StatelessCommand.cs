@@ -7,7 +7,9 @@ namespace GCode3D.Models
         public bool IsCompleted { get; set; } = false;
         public bool IsRunning { get; set; } = false;
 
-        public Vector3 From { get; set; }
-        public Vector3 To { get; set; }
+        public Vector3 From { get; set; } = new();
+        public Vector3 To { get; set; } = new();
+
+        public string Code { get; set; } = string.Empty;
     }
 }
