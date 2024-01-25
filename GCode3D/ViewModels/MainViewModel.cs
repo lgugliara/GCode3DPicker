@@ -54,9 +54,6 @@ namespace GCode3D
         public void RunProgram()
         {
             Program.Start((StatelessCommand command) => {
-                Debug.WriteLine($"Command: {command.Code}");
-                Debug.WriteLine($"From: {Program.CurrentPosition}");
-
                 OnPropertyChanged(nameof(Program));
                 OnPropertyChanged(nameof(GCPivot));
             });
