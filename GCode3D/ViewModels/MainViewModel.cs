@@ -64,7 +64,7 @@ namespace GCode3D
         
         public void LoadProgram(string to)
         {
-            Picker.CurrentFile = new()
+            var currentElement = new ExplorerElement()
             {
                 Path = to,
                 Type = ExplorerElementType.File
@@ -74,7 +74,8 @@ namespace GCode3D
             {
                 Program?.Stop();
                 // Load the program from the file
-                Program = GCodeParser.ParseFile(Picker.CurrentFile);
+                Picker.CurrentFile = currentElement;
+                Program = GCodeParser.ParseFile(currentElement);
 
                 // Update the mesh with the new program data
                 GCMesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
