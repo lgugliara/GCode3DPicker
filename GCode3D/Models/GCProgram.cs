@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Threading;
 using GCode3D.Models.Interfaces;
 using HelixToolkit.SharpDX.Core;
 using SharpDX;
@@ -63,7 +65,7 @@ namespace GCode3D.Models
                         Stopwatch.Restart();
 
                         v.command.IsRunning = true;
-                        callback.DynamicInvoke(v.command);
+                        Application.Current.Dispatcher.Invoke(() => callback.DynamicInvoke(v.command));
                         Task.Delay(1000).Wait();
 
                         Stopwatch.Stop();
