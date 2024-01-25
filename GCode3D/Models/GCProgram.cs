@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using HelixToolkit.SharpDX.Core;
 
 namespace GCode3D.Models
 {
-    public class GCProgram : IGCRunnable, IDisposable
+    public class GCProgram : IGCRunnable
     {
         public List<StatelessCommand> Commands { get; set; } = [];
         
@@ -20,33 +20,34 @@ namespace GCode3D.Models
         }
 
         #region IGCRunnable
-        public bool IsRunning { get; set; }
-        public void Start()
+        public bool IsRunning
+        {
+            get => CurrentCommand.IsRunning;    
+        }
+        public void Start(Delegate callback)
         {
             Task.Run(() => 
             {
-                bool hasStopped = Commands.Any(command => {
+                bool hasStopped = Commands
+                    .Select((command, i) => new { command, i })
+                    .Any(v => {
+                        CurrentCommand = v.command;
+                        CurrentIndex = v.i;
+
+                        v.command.IsRunning = true;
+                        callback.DynamicInvoke(v.command);
+                        Task.Delay(1000).Wait();
+
                     if(!IsRunning)
                         return true;
 
-                    command.IsRunning = true;
-                    Task.Delay(1000).Wait();
-                    command.IsRunning = false;
-                    command.IsCompleted = true;
+                        v.command.IsRunning = false;
+                        v.command.IsCompleted = true;
                     return false;
                 });
             });
         }
-        public void Stop()
-        {
-            IsRunning = false;
-        }
-        #endregion
-        #region IDisposable
-        public void Dispose()
-        {
-            IsRunning = false;
-        }
+        public void Stop() => CurrentCommand.IsRunning = false;
         #endregion
     }
 }
