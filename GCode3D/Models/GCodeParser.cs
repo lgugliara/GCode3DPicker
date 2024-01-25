@@ -35,10 +35,10 @@ namespace GCode3D
 
                         commands.Add(new StatelessCommand {
                             From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
-                            To = currentPoint + newPoint,
+                            To = newPoint,
                             Code = line
                         });
-                        currentPoint += newPoint;
+                        currentPoint = newPoint;
                     }
                 }
 
