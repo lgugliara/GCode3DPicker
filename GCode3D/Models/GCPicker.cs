@@ -49,22 +49,28 @@ namespace GCode3D.Models
         
         public List<ExplorerElement> Folders
         {
-            get => [.. Directory.GetDirectories(CurrentFolder.Path, "*", SearchOption.AllDirectories)
+            get => [
+                .. Directory.GetDirectories(CurrentFolder.Path, "*", SearchOption.AllDirectories)
                 .Select(filename => new ExplorerElement
                 {
                     Path = filename,
                     Type = ExplorerElementType.Folder
-                })];
+                })
+                .OrderBy(e => e.Filename)
+            ];
         }
 
         public List<ExplorerElement> Files
         {
-            get => [.. Directory.GetFiles(CurrentFolder.Path)
+            get => [
+                .. Directory.GetFiles(CurrentFolder.Path)
                 .Select(filename => new ExplorerElement
                 {
                     Path = filename,
                     Type = ExplorerElementType.File
-                })];
+                })
+                .OrderBy(e => e.Filename)
+            ];
         }
 
         public List<ExplorerElement> Content {
