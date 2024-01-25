@@ -97,10 +97,9 @@
                                                     </Grid.ColumnDefinitions>
                                                 
                                                     <!-- Folder Icon -->
-                                                    <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
+                                                    <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Visibility="Collapsed" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
                                                         <iconPacks:PackIconBoxIcons.Style>
                                                             <Style TargetType="iconPacks:PackIconBoxIcons">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Folder">
                                                                         <Setter Property="Visibility" Value="Visible" />
@@ -116,7 +115,17 @@
                                                             Margin="5" FontSize="15" />
                                                     
                                                     <!-- Running Icon -->
-                                                    <iconPacks:PackIconBoxIcons Grid.Column="2" x:Name="running" Kind="RegularMessageSquareDots" Width="20" Height="20" Margin="10" VerticalAlignment="Center" Foreground="White" />
+                                                    <iconPacks:PackIconBoxIcons Grid.Column="2" x:Name="running" Kind="RegularMessageSquareDots" Width="20" Height="20" Margin="10" VerticalAlignment="Center" Foreground="White">
+                                                        <iconPacks:PackIconBoxIcons.Style>
+                                                            <Style TargetType="iconPacks:PackIconBoxIcons">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </iconPacks:PackIconBoxIcons.Style>
+                                                    </iconPacks:PackIconBoxIcons>
                                                 </Grid>
                                             </Border>
                                             <ControlTemplate.Triggers>
@@ -153,12 +162,10 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                 
-                    <Border Grid.Row="0" CornerRadius="30" Background="White">
-                        <hx:Viewport3DX Background="Transparent" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
-                            <hx:LineGeometryModel3D Geometry="{Binding GCMesh.Geometry}" Color="{Binding GCMesh.Color}" />
-                            <hx:LineGeometryModel3D Geometry="{Binding GCPivot.Geometry}" Color="{Binding GCPivot.Color}" Transform="{Binding Program.CurrentPosition}" />
-                        </hx:Viewport3DX>
-                    </Border>
+                    <hx:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
+                        <hx:LineGeometryModel3D Geometry="{Binding GCMesh.Geometry}" Color="{Binding GCMesh.Color}" />
+                        <hx:LineGeometryModel3D Geometry="{Binding GCPivot.Geometry}" Color="{Binding GCPivot.Color}" />
+                    </hx:Viewport3DX>
                 
                     <Border Grid.Row="2" BorderBrush="White" BorderThickness="1, 0, 0, 0">
                         <Grid Margin="20, 0, 0, 0">
