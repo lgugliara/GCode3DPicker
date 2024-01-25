@@ -40,5 +40,17 @@ namespace GCode3D
         private void EditProgram_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private void RunToggle_Click(object sender, RoutedEventArgs e)
+        {
+            if (viewModel.Program.IsRunning)
+                viewModel.Program.Stop();
+            else
+                viewModel.RunProgram();
+        }
+
+        private void AppClose_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

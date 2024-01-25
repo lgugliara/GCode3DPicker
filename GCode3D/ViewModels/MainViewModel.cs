@@ -5,6 +5,8 @@ using HelixToolkit.Wpf.SharpDX;
 using GCode3D.Models;
 using System.IO;
 using System.Windows;
+using System.Diagnostics;
+using SharpDX;
 
 namespace GCode3D
 {
@@ -15,13 +17,30 @@ namespace GCode3D
 
         public EffectsManager EffectsManager { get; } = new DefaultEffectsManager();
         public Camera Camera { get; } = new PerspectiveCamera{ FarPlaneDistance = 100000, NearPlaneDistance = 0.1 };
-	    public LineGeometryModel3D Mesh { get; } = new LineGeometryModel3D()
+	    public LineGeometryModel3D GCMesh { get; } = new LineGeometryModel3D()
         {
             Thickness = 1,
             Smoothness = 2,
             Color = System.Windows.Media.Colors.Blue,
             IsThrowingShadow = false,
         };
+        public LineGeometryModel3D GCPivot { get; } = new LineGeometryModel3D()
+        {
+            Thickness = 1,
+            Smoothness = 2,
+            Color = System.Windows.Media.Colors.Red,
+            IsThrowingShadow = false,
+            Geometry = CreateArrowGeometry().ToLineGeometry3D(),
+        };
+
+        private static LineBuilder CreateArrowGeometry()
+        {
+            var g = new LineBuilder();
+            g.AddLine(Vector3.Right, Vector3.Left);
+            g.AddLine(Vector3.Down, Vector3.Up);
+            g.AddLine(Vector3.BackwardLH, Vector3.ForwardLH);
+            return g;
+        }
 
         public MainViewModel()
         {
@@ -30,6 +49,17 @@ namespace GCode3D
             Picker.Watcher.Created += LoadWatcher;
             Picker.Watcher.Deleted += LoadWatcher;
             Picker.Watcher.Changed += LoadWatcher;
+        }
+
+        public void RunProgram()
+        {
+            Program.Start((StatelessCommand command) => {
+                Debug.WriteLine($"Command: {command.Code}");
+                Debug.WriteLine($"From: {Program.CurrentPosition}");
+
+                OnPropertyChanged(nameof(Program));
+                OnPropertyChanged(nameof(GCPivot));
+            });
         }
         
         public void LoadProgram(string to)
@@ -42,14 +72,15 @@ namespace GCode3D
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
+                Program?.Stop();
                 // Load the program from the file
                 Program = GCodeParser.ParseFile(Picker.CurrentFile);
 
                 // Update the mesh with the new program data
-                Mesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
+                GCMesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
             
                 OnPropertyChanged(nameof(Program));
-                OnPropertyChanged(nameof(Mesh));
+                OnPropertyChanged(nameof(GCMesh));
             });
         }
 
@@ -94,7 +125,6 @@ namespace GCode3D
         #region IDisposable
         public void Dispose()
         {
-            Program.Dispose();
             Picker.Watcher.Dispose();
         }
         #endregion
