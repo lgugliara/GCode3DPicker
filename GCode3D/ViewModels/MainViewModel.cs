@@ -70,7 +70,7 @@ namespace GCode3D
                 Type = ExplorerElementType.File
             };
 
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Task.Run(() =>
             {
                 Program?.Stop();
                 // Load the program from the file
@@ -78,10 +78,14 @@ namespace GCode3D
                 Program = GCodeParser.ParseFile(currentElement);
 
                 // Update the mesh with the new program data
-                GCMesh.Geometry = Program.ToLineBuilder().ToLineGeometry3D();
-            
-                OnPropertyChanged(nameof(Program));
-                OnPropertyChanged(nameof(GCMesh));
+                var geometry = Program.ToLineBuilder().ToLineGeometry3D();
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    GCMesh.Geometry = geometry;
+                    OnPropertyChanged(nameof(Program));
+                    OnPropertyChanged(nameof(GCMesh));
+                });
             });
         }
 
