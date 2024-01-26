@@ -1,16 +1,54 @@
 ﻿using System.Diagnostics;
-using System.Windows;
+using System.Windows.Input;
+using GCode3D.Models.Picker;
+using GCode3D.ViewModels;
 using HelixToolkit.SharpDX.Core;
 using SharpDX;
 
 namespace GCode3D.Models.Program
 {
-    public class Program : IRunnable
+    public class Program : StandardViewModel, IRunnable
     {
-        public List<StatelessCommand> Commands { get; set; } = [];
-        public StatelessCommand CurrentCommand { get; set; } = new();
-        public int CurrentIndex { get; set; } = 0;
+        private File _File = new();
+        public File File
+        {
+            get => _File;
+            set => Set(ref _File, value);
+        }
+
+        private List<StatelessCommand> _Commands = [];
+        public List<StatelessCommand> Commands
+        {
+            get => _Commands;
+            set => Set(ref _Commands, value);
+        }
+
+        private StatelessCommand _CurrentCommand = new();
+        public StatelessCommand CurrentCommand
+        {
+            get => _CurrentCommand;
+            set => Set(ref _CurrentCommand, value);
+        }
+        
+        private int _CurrentIndex = 0;
+        public int CurrentIndex
+        {
+            get => _CurrentIndex;
+            set => Set(ref _CurrentIndex, value);
+        }
+
         public Stopwatch Stopwatch { get; set; } = new();
+
+        private Task? _Task;
+        private Task? Task
+        {
+            get => _Task;
+            set {
+                Set(ref _Task, value);
+                OnPropertyChanged(nameof(Action));
+            }
+        }
+    
         public Vector3 CurrentPosition
         {
             get {
@@ -31,6 +69,7 @@ namespace GCode3D.Models.Program
                 return factor.ToString("n2") ?? "-";
             }
         }
+        
         public string Description
         {
             get => string.Join("\t", new List<string> {
@@ -38,7 +77,15 @@ namespace GCode3D.Models.Program
                 $"{CurrentCommand.Code}",
             });
         }
-        
+
+        public string Action
+        {
+            get => 
+                IsRunning ? 
+                    "Stop" : 
+                    "Run";
+        }
+
         public async Task<LineBuilder> ToLineBuilder() =>
             await Task.Run(() => {
                 var g = new LineBuilder();
@@ -51,29 +98,26 @@ namespace GCode3D.Models.Program
         {
             get => CurrentCommand.IsRunning;    
         }
-        public void Start(Delegate callback)
+        public void Start(ICommand? onUpdate)
         {
-            Task.Run(() => 
+            Task = Task.Run(async () => 
             {
-                bool hasStopped = Commands
-                    .Select((command, i) => new { command, i })
-                    .Any(v => {
-                        CurrentCommand = v.command;
-                        CurrentIndex = v.i;
-                        Stopwatch.Restart();
+                int index = -1;
+                foreach (var c in Commands)
+                {
+                    CurrentCommand.IsRunning = false;
+                    CurrentCommand.IsCompleted = true;
+                    index++;
 
-                        v.command.IsRunning = true;
-                        Application.Current.Dispatcher.Invoke(() => callback.DynamicInvoke(v.command));
-                        Task.Delay(1000).Wait();
+                    CurrentCommand = c;
+                    CurrentIndex = index;
+                    CurrentCommand.IsRunning = true;
 
-                        Stopwatch.Stop();
-                        if(!IsRunning)
-                            return true;
-
-                        v.command.IsRunning = false;
-                        v.command.IsCompleted = true;
-                        return false;
-                    });
+                    Stopwatch.Restart();
+                    await Task.Delay(20);
+                    onUpdate?.Execute(null);
+                    Stopwatch.Stop();
+                }
             });
         }
         public void Stop() => CurrentCommand.IsRunning = false;

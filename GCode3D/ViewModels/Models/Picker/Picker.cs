@@ -17,12 +17,12 @@ namespace GCode3D.Models.Picker
             {
                 Watcher.Path = value.Path;
                 Set(ref _Location, value);
-                OnPropertyChanged(nameof(Content));
+                Refresh();
             }
         }
 
-        private IPickable? _Selection;
-        public IPickable? Selection
+        private File? _Selection;
+        public File? Selection
         {
             get => _Selection;
             set => Set(ref _Selection, value);
@@ -58,6 +58,13 @@ namespace GCode3D.Models.Picker
         public IEnumerable<IPickable> Content
         {
             get => [.. Folders, .. Files];
+        }
+
+        public void Refresh()
+        {
+            OnPropertyChanged(nameof(Files));
+            OnPropertyChanged(nameof(Folders));
+            OnPropertyChanged(nameof(Content));
         }
     }
 }

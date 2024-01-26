@@ -1,6 +1,6 @@
 namespace GCode3D.Models.Picker
 {
-    public interface IPickable
+    public interface IPickable : IEquatable<IPickable>
     {
         public string Path { get; set; }
         public PickableType Type { get; set; }

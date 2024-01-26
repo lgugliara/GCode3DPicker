@@ -38,7 +38,7 @@ namespace GCode3D.ViewModels
                     if(from is Folder)
                         Current.Location = from;
                     else if(from is GCode3D.Models.Picker.File)
-                        Current.Selection = from;
+                        Current.Selection = from as GCode3D.Models.Picker.File;
 
                     PreviewCommand?.Execute(null);
                 }
@@ -61,8 +61,8 @@ namespace GCode3D.ViewModels
                 }
             );
 
-        public void LoadWatcher(object sender, FileSystemEventArgs e) =>
-            OnPropertyChanged(nameof(Current));
+        public void LoadWatcher(object sender, FileSystemEventArgs e) => 
+            Current?.Refresh();
 
         #region IDisposable
         public override void Dispose()

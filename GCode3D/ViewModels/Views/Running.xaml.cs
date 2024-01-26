@@ -17,15 +17,7 @@ namespace GCode3D.Views
             InitializeComponent();
         }
 
-        private void RunToggle_Click(object sender, RoutedEventArgs e)
-        {
-            if (VM.Current == null)
-                return;
-
-            if (VM.Current.IsRunning)
-                VM.Current.Stop();
-            else
-                VM.LoadRun();
-        }
+        private void RunToggle_Click(object sender, RoutedEventArgs e) =>
+            VM?.ToggleRun();
     }
 }

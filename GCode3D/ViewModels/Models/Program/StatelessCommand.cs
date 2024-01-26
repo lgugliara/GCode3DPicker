@@ -1,15 +1,43 @@
-﻿using SharpDX;
+﻿using GCode3D.ViewModels;
+using SharpDX;
 
 namespace GCode3D.Models
 {
-    public class StatelessCommand
+    public class StatelessCommand : StandardViewModel
     {
-        public bool IsCompleted { get; set; } = false;
-        public bool IsRunning { get; set; } = false;
+        private bool _IsCompleted = false;
+        public bool IsCompleted
+        {
+            get => _IsCompleted;
+            set => Set(ref _IsCompleted, value);
+        }
 
-        public Vector3 From { get; set; } = new();
-        public Vector3 To { get; set; } = new();
+        private bool _IsRunning = false;
+        public bool IsRunning
+        {
+            get => _IsRunning;
+            set => Set(ref _IsRunning, value);
+        }
 
-        public string Code { get; set; } = string.Empty;
+        private Vector3 _From = new();
+        public Vector3 From
+        {
+            get => _From;
+            set => Set(ref _From, value);
+        }
+
+        private Vector3 _To = new();
+        public Vector3 To
+        {
+            get => _To;
+            set => Set(ref _To, value);
+        }
+
+        private string _Code = string.Empty;
+        public string Code
+        {
+            get => _Code;
+            set => Set(ref _Code, value);
+        }
     }
 }

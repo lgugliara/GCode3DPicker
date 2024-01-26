@@ -19,18 +19,17 @@
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="{Binding Program.Description}" FontSize="14" />
+                <Label Grid.Row="0" Content="{Binding Current.Description}" FontSize="14" />
                 <Border Grid.Row="1" BorderThickness="0, 1, 0, 0" BorderBrush="Gray"
                     HorizontalAlignment="Left">
-                    <Label Content="{Binding Program.IsRunning}" FontStyle="Italic" FontSize="10" />
+                    <Label Content="{Binding Current.IsRunning}" FontStyle="Italic" FontSize="10" />
                 </Border>
             </Grid>
 
             <Border Grid.Column="2" CornerRadius="12" Background="Red" Margin="10">
                 <Button Foreground="White" Background="Transparent" BorderThickness="0"
                     Click="RunToggle_Click">
-                    <iconPacks:PackIconBoxIcons Kind="RegularPlay" Width="20" Height="20"
-                        VerticalAlignment="Center" />
+                    <Label Content="{Binding Current.Action}" FontSize="20" Foreground="White" />
                 </Button>
             </Border>
         </Grid>

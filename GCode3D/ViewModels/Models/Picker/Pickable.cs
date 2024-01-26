@@ -32,5 +32,10 @@ namespace GCode3D.Models.Picker
                     Type = PickableType.Folder
                 };
         }
+
+        #region IEquatable<IPickable>
+        public bool Equals(IPickable? obj) =>
+            obj?.Path?.Equals(Path) ?? false;
+        #endregion
     }
 }
