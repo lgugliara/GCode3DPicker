@@ -1,9 +1,11 @@
 ﻿using System.IO;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using GCode3D.ViewModels;
 using GCode3D.ViewModels.Models.Picker;
 
 namespace GCode3D.Models.Picker
 {
-    public class Picker
+    public class Picker : StandardViewModel
     {
         public static readonly string DefaultPath = @"C:/GCode3DPicker/GCode3D/resources/gcodes";
 
@@ -13,12 +15,18 @@ namespace GCode3D.Models.Picker
             get => _Location;
             set
             {
-                _Location = value;
                 Watcher.Path = value.Path;
+                Set(ref _Location, value);
+                OnPropertyChanged(nameof(Content));
             }
         }
 
-        public IPickable? Selection { get; set; }
+        private IPickable? _Selection;
+        public IPickable? Selection
+        {
+            get => _Selection;
+            set => Set(ref _Selection, value);
+        }
 
         public Watcher Watcher { get; private set; } = new();
 
@@ -34,11 +42,11 @@ namespace GCode3D.Models.Picker
             ];
         }
 
-        public IEnumerable<GCode3D.Models.Picker.File> Files
+        public IEnumerable<File> Files
         {
             get => [
                 .. Directory.GetFiles(Location.Path)
-                .Select(filename => new GCode3D.Models.Picker.File
+                .Select(filename => new File
                 {
                     Path = filename,
                     Type = PickableType.File

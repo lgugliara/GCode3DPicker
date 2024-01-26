@@ -6,7 +6,7 @@
     xmlns:vs="clr-namespace:GCode3D.Views"
     xmlns:vms="clr-namespace:GCode3D.ViewModels"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    mc:Ignorable="d" Height="Auto" Width="960"
+    mc:Ignorable="d" Height="Auto" Width="1200"
     WindowStyle="None"
     ResizeMode="CanResizeWithGrip" Background="Transparent" AllowsTransparency="True">
     <Window.DataContext>

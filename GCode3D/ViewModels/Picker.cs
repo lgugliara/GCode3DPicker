@@ -58,7 +58,6 @@ namespace GCode3D.ViewModels
                         return;
                     
                     Current.Location = back;
-                    OnPropertyChanged(nameof(Current));
                 }
             );
 
