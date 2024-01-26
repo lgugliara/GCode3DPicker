@@ -23,15 +23,15 @@ namespace GCode3D.ViewModels
             _Current.Watcher.Changed += LoadWatcher;
         }
 
-        public async Task LoadProgram(GCode3D.Models.Picker.File? from = null) =>
+        public async Task<IEnumerable<StatelessCommand>> LoadProgram(GCode3D.Models.Picker.File? from = null) =>
             await Task.Run(() =>
                 {
                     // TODO: Handle with exceptions
                     if (Current == null)
-                        return;
+                        return [];
 
-                    // Parse the G-code commands
-                    var commands = Parser.From(Current?.Selection);
+                    Current.Selection = from;
+                    return Parser.From(Current.Selection);
                 }
             );
 
