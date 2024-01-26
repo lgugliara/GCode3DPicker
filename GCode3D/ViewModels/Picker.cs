@@ -51,7 +51,7 @@ namespace GCode3D.ViewModels
                         return;
 
                     // TODO: Handle with exceptions (ArgumentNullException)
-                    if (Current.Selection?.Parent is not Folder back)
+                    if (Current.Location?.Parent is not Folder back)
                         return;
 
                     if (Current.Location?.Path == back.Path)
