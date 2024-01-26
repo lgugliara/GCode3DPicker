@@ -1,4 +1,4 @@
-using HelixToolkit.SharpDX.Core;
+﻿using HelixToolkit.SharpDX.Core;
 using System.Windows;
 using SharpDX;
 using GCode3D.Models.Program;
@@ -33,17 +33,22 @@ namespace GCode3D.ViewModels
                 NearPlaneDistance = 0.1
             };
 
-        public LineGeometryModel3D Mesh { get; } =
-            new LineGeometryModel3D()
+        private LineGeometryModel3D _Preview =
+            new()
             {
                 Thickness = 1,
                 Smoothness = 2,
                 Color = System.Windows.Media.Colors.Blue,
                 IsThrowingShadow = false,
             };
+        public LineGeometryModel3D Preview
+        {
+            get => _Preview;
+            set => Set(ref _Preview, value);
+        }
 
-        public LineGeometryModel3D Pivot { get; } =
-            new LineGeometryModel3D()
+        private LineGeometryModel3D _Pivot =
+            new()
             {
                 Thickness = 1,
                 Smoothness = 2,
@@ -51,16 +56,21 @@ namespace GCode3D.ViewModels
                 IsThrowingShadow = false,
                 Geometry = CreatePivot().ToLineGeometry3D(),
             };
+        public LineGeometryModel3D Pivot
+        {
+            get => _Pivot;
+            set => Set(ref _Pivot, value);
+        }
 
         public async Task LoadProgram()
-                {
+        {
             if(Current == null)
                 return;
 
-                    // Update the mesh with the new program data
+            // Update the mesh with the new program data
             var geometry = (await Current.ToLineBuilder()).ToLineGeometry3D();
 
-                    Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.Invoke(() =>
                 Preview = new()
                 {
                     Thickness = 1,

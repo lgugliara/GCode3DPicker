@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
     
         <hx:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
-            <hx:LineGeometryModel3D Geometry="{Binding Mesh.Geometry}" Color="{Binding Mesh.Color}" />
+            <hx:LineGeometryModel3D Geometry="{Binding Preview.Geometry}" Color="{Binding Preview.Color}" />
             <hx:LineGeometryModel3D Geometry="{Binding Pivot.Geometry}" Color="{Binding Pivot.Color}" />
         </hx:Viewport3DX>
     
