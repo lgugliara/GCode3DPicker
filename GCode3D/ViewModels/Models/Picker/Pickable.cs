@@ -23,10 +23,10 @@ namespace GCode3D.Models.Picker
             get => Type == PickableType.Folder && Path.LastIndexOf('/') < 0;
         }
         
-        public IPickable Parent
+        public Folder? Parent
         {
             get => IsRoot ? 
-                this :
+                null :
                 new() {
                     Path = Path[..Path.LastIndexOf('/')],
                     Type = PickableType.Folder
