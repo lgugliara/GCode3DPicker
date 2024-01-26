@@ -20,7 +20,7 @@ namespace GCode3D.Views
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (programsListBox.SelectedItem is not Pickable selected)
+            if (programsListBox.SelectedItem is not IPickable selected)
                 return;
 
             // If the selected item is a folder, update the current folder
