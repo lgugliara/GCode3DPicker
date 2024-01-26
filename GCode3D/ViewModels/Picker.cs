@@ -1,11 +1,13 @@
-using System.IO;
-using GCode3D.Models;
+﻿using System.IO;
+using System.Windows.Input;
 using GCode3D.Models.Picker;
 
 namespace GCode3D.ViewModels
 {
     public class PickerViewModel : StandardViewModel
     {
+        public ICommand PreviewCommand { get; set; }
+
         public Picker? _Current = new();
         public Picker? Current
         {
@@ -34,7 +36,7 @@ namespace GCode3D.ViewModels
                         return;
                     
                     if(from is Folder)
-                    Current.Location = from;
+                        Current.Location = from;
                     else if(from is GCode3D.Models.Picker.File)
                         Current.Selection = from;
 
