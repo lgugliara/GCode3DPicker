@@ -22,7 +22,7 @@ namespace GCode3D.Models.Picker
 
         public Watcher Watcher { get; private set; } = new();
 
-        public IEnumerable<IPickable> Folders
+        public IEnumerable<Folder> Folders
         {
             get => [
                 .. Directory.GetDirectories(Location.Path, "*", SearchOption.AllDirectories)
@@ -34,11 +34,11 @@ namespace GCode3D.Models.Picker
             ];
         }
 
-        public IEnumerable<IPickable> Files
+        public IEnumerable<GCode3D.Models.Picker.File> Files
         {
             get => [
                 .. Directory.GetFiles(Location.Path)
-                .Select(filename => new Pickable
+                .Select(filename => new GCode3D.Models.Picker.File
                 {
                     Path = filename,
                     Type = PickableType.File
