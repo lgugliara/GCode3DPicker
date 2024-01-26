@@ -39,12 +39,12 @@ namespace GCode3D.Models.Program
             });
         }
         
-        public LineBuilder ToLineBuilder()
-        {
-            var g = new LineBuilder();
-            Commands.ForEach(c => g.AddLine(c.From, c.To));
-            return g;
-        }
+        public async Task<LineBuilder> ToLineBuilder() =>
+            await Task.Run(() => {
+                var g = new LineBuilder();
+                Commands.ForEach(c => g.AddLine(c.From, c.To));
+                return g;
+            });
 
         #region IGCRunnable
         public bool IsRunning

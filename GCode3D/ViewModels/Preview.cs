@@ -1,4 +1,4 @@
-﻿using HelixToolkit.SharpDX.Core;
+using HelixToolkit.SharpDX.Core;
 using System.Windows;
 using SharpDX;
 using GCode3D.Models.Program;
@@ -52,19 +52,25 @@ namespace GCode3D.ViewModels
                 Geometry = CreatePivot().ToLineGeometry3D(),
             };
 
-        public void LoadProgram() =>
-            Task.Run(() =>
+        public async Task LoadProgram()
                 {
+            if(Current == null)
+                return;
+
                     // Update the mesh with the new program data
-                    var geometry = Current?.ToLineBuilder().ToLineGeometry3D();
+            var geometry = (await Current.ToLineBuilder()).ToLineGeometry3D();
 
                     Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Mesh.Geometry = geometry;
-                        OnPropertyChanged(nameof(Program));
-                        OnPropertyChanged(nameof(Mesh));
-                    });
-                });
+                Preview = new()
+                {
+                    Thickness = 1,
+                    Smoothness = 2,
+                    Color = System.Windows.Media.Colors.Blue,
+                    IsThrowingShadow = false,
+                    Geometry = geometry,
+                }
+            );
+        }
 
         #region IDisposable
         public override void Dispose()
