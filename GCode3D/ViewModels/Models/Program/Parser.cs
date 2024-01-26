@@ -1,15 +1,20 @@
-﻿using GCode3D.Models;
-using System.Globalization;
+﻿using System.Globalization;
 using SharpDX;
 using System.IO;
+using GCode3D.Models.Picker;
 
-namespace GCode3D
+namespace GCode3D.Models
 {
-    public class GCodeParser
+    public static class Parser
     {
-        public static GCProgram ParseFile(ExplorerElement file)
+        // TODO: Scritta così fa cagare
+        public static IEnumerable<StatelessCommand> From(IPickable? from = null)
         {
-            StreamReader sr = new(file.Path);
+            // TODO: Handle with exceptions (ArgumentNullException)
+            if(from == null)
+                return [];
+
+            StreamReader sr = new(from.Path);
             List<StatelessCommand> commands = [];
             var line = sr.ReadLine();
             Vector3 currentPoint = new();
@@ -45,15 +50,11 @@ namespace GCode3D
                 line = sr.ReadLine();
             }
 
-            return new GCProgram { Commands = commands };
+            return commands;
         }
 
-        private static float ParseCoordinate(string value, float defaultValue)
-        {
-            if (float.TryParse(value[1..], CultureInfo.InvariantCulture, out float result))
-                return result;
-            return defaultValue;
-        }
-
+        private static float ParseCoordinate(string value, float defaultValue) =>
+            float.TryParse(value[1..], CultureInfo.InvariantCulture, out float result) ?
+                result : defaultValue;
     }
 }

@@ -1,4 +1,4 @@
-﻿<Application x:Class="GCode3D.App"
+﻿<Application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GCode3D"

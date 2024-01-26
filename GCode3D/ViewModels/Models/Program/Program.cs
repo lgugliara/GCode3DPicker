@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Windows;
-using System.Windows.Threading;
-using GCode3D.Models.Interfaces;
 using HelixToolkit.SharpDX.Core;
 using SharpDX;
 
-namespace GCode3D.Models
+namespace GCode3D.Models.Program
 {
-    public class GCProgram : IGCRunnable
+    public class Program : IRunnable
     {
         public List<StatelessCommand> Commands { get; set; } = [];
         public StatelessCommand CurrentCommand { get; set; } = new();

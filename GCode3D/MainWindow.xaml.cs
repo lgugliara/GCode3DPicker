@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using GCode3D.Models;
+using GCode3D.Models.Picker;
+using GCode3D.ViewModels;
 
 namespace GCode3D
 {
@@ -10,32 +10,30 @@ namespace GCode3D
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel viewModel;
+        private AppViewModel AppViewModel { get; set; } = new();
 
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            DataContext = viewModel;
+            AppViewModel = new();
+            DataContext = AppViewModel;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (programsListBox.SelectedItem is not ExplorerElement selected)
+            if (programsListBox.SelectedItem is not Pickable selected)
                 return;
 
             // If the selected item is a folder, update the current folder
-            if (selected.Type == ExplorerElementType.Folder)
-                viewModel.LoadFolder(selected.Path);
+            if (selected.Type == PickableType.Folder)
+                AppViewModel.PickerViewModel.LoadFolder(selected as Folder);
             // If the selected item is a file, update the current file
             else
-                viewModel.LoadProgram(selected.Path);
+                AppViewModel.PickerViewModel.LoadProgram(selected as File);
         }
 
-        private void PickerBack_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel.LoadFolder();
-        }
+        private void PickerBack_Click(object sender, RoutedEventArgs e) =>
+            AppViewModel.PickerViewModel.LoadFolder(AppViewModel.PickerViewModel.Current.Selection?.Parent as Folder);
 
         private void EditProgram_Click(object sender, RoutedEventArgs e)
         {
@@ -43,10 +41,13 @@ namespace GCode3D
 
         private void RunToggle_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.Program.IsRunning)
-                viewModel.Program.Stop();
+            if (AppViewModel.RunningViewModel.Current == null)
+                return;
+
+            if (AppViewModel.RunningViewModel.Current.IsRunning)
+                AppViewModel.RunningViewModel.Current.Stop();
             else
-                viewModel.RunProgram();
+                AppViewModel.RunningViewModel.LoadRun();
         }
 
         private void AppClose_Click(object sender, RoutedEventArgs e)
