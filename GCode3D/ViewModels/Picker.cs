@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using GCode3D.Models;
 using GCode3D.Models.Picker;
 
@@ -23,19 +23,7 @@ namespace GCode3D.ViewModels
             _Current.Watcher.Changed += LoadWatcher;
         }
 
-        public async Task<IEnumerable<StatelessCommand>> LoadProgram(GCode3D.Models.Picker.File? from = null) =>
-            await Task.Run(() =>
-                {
-                    // TODO: Handle with exceptions
-                    if (Current == null)
-                        return [];
-
-                    Current.Selection = from;
-                    return Parser.From(Current.Selection);
-                }
-            );
-
-        public async Task LoadFolder(Folder? from = null) =>
+        public async Task Select(IPickable? from = null) =>
             await Task.Run(() =>
                 {
                     // TODO: Handle with exceptions (ArgumentNullException)
@@ -45,7 +33,29 @@ namespace GCode3D.ViewModels
                     if (Current == null)
                         return;
                     
+                    if(from is Folder)
                     Current.Location = from;
+                    else if(from is GCode3D.Models.Picker.File)
+                        Current.Selection = from;
+
+                    PreviewCommand?.Execute(null);
+                }
+            );
+
+        public async Task Back() =>
+            await Task.Run(() =>
+                {
+                    if(Current == null)
+                        return;
+
+                    // TODO: Handle with exceptions (ArgumentNullException)
+                    if (Current.Selection?.Parent is not Folder back)
+                        return;
+
+                    if (Current.Location?.Path == back.Path)
+                        return;
+                    
+                    Current.Location = back;
                     OnPropertyChanged(nameof(Current));
                 }
             );

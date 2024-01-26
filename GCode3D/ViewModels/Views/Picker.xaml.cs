@@ -22,17 +22,12 @@ namespace GCode3D.Views
         {
             if (programsListBox.SelectedItem is not IPickable selected)
                 return;
-
-            // If the selected item is a folder, update the current folder
-            if (selected.Type == PickableType.Folder)
-                VM.LoadFolder(selected as Folder);
-            // If the selected item is a file, update the current file
-            else
-                VM.LoadProgram(selected as File);
+            
+            VM?.Select(selected);
         }
 
         private void PickerBack_Click(object sender, RoutedEventArgs e) =>
-            VM.LoadFolder(VM.Current.Selection?.Parent as Folder);
+            VM?.Back();
 
         private void EditProgram_Click(object sender, RoutedEventArgs e) {}
     }
