@@ -1,8 +1,9 @@
-using HelixToolkit.SharpDX.Core;
+﻿using HelixToolkit.SharpDX.Core;
 using System.Windows;
 using SharpDX;
 using GCode3D.Models.Program;
 using HelixToolkit.Wpf.SharpDX;
+using System.Windows.Media.Media3D;
 
 namespace GCode3D.ViewModels
 {
@@ -26,8 +27,8 @@ namespace GCode3D.ViewModels
 
         public EffectsManager EffectsManager { get; } =
             new DefaultEffectsManager();
-        public Camera Camera { get; } =
-            new PerspectiveCamera
+        public HelixToolkit.Wpf.SharpDX.Camera Camera { get; } =
+            new HelixToolkit.Wpf.SharpDX.PerspectiveCamera
             {
                 FarPlaneDistance = 100000,
                 NearPlaneDistance = 0.1
@@ -84,6 +85,24 @@ namespace GCode3D.ViewModels
 
         public void Refresh()
         {
+            #region DEV
+            // TODO: Not working. The pivot is not updating
+            // Moreover, the pivot is not designed to be instanced multiple times
+            
+            /* var position = Current?.CurrentPosition ?? Vector3.Zero;
+            
+            Application.Current.Dispatcher.Invoke(() =>
+                Pivot = new()
+                {
+                    Thickness = 1,
+                    Smoothness = 2,
+                    Color = System.Windows.Media.Colors.Red,
+                    IsThrowingShadow = false,
+                    Geometry = CreatePivot().ToLineGeometry3D(),
+                    Transform = new TranslateTransform3D(position.ToVector3D()),
+                }
+            ); */
+            #endregion
         }
 
         #region IDisposable
