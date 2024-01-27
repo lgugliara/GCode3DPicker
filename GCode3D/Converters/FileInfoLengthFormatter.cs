@@ -6,7 +6,7 @@ namespace GCode3D.Converters
     public class FileInfoLengthFormatter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
-            value is long length ? $"{length / 1024.0 :F2} KB" : "-";
+            value is long length ? $"{length / 1024.0 :F2} KB" : string.Empty;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
