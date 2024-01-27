@@ -61,6 +61,7 @@ namespace GCode3D.Models.Program
         private Task? _Task;
         private Task? Task
         {
+            get => _Task;
             set {
                 Set(ref _Task, value);
                 OnPropertyChanged(nameof(Action));
@@ -171,7 +172,7 @@ namespace GCode3D.Models.Program
         #region IGCRunnable
         public bool IsRunning
         {
-            get => CurrentCommand.IsRunning;    
+            get => Task?.Status == TaskStatus.Running;    
         }
         public void Start(ICommand? onUpdate)
         {
@@ -183,19 +184,21 @@ namespace GCode3D.Models.Program
                     CurrentCommand.IsRunning = false;
                     CurrentCommand.IsCompleted = true;
                     index++;
+                    CurrentIndex = index;
+                    c.IsRunning = true;
+                    c.IsCompleted = false;
 
                     Application.Current.Dispatcher.Invoke(() => CurrentCommand = c);
-                    CurrentIndex = index;
-                    CurrentCommand.IsRunning = true;
 
                     Stopwatch.Restart();
-                    await Task.Delay(20);
-                    onUpdate?.Execute(null);
+                    await Task.Delay(50);
                     Stopwatch.Stop();
+                    onUpdate?.Execute(null);
                 }
             });
         }
-        public void Stop() => CurrentCommand.IsRunning = false;
+        public void Stop() => 
+            Task = null;
         #endregion
     }
 }
