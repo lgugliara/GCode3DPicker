@@ -21,7 +21,11 @@ namespace GCode3D.ViewModels
                 Current?.Stop();
             else
                 Current?.Start(
-                    new RelayCommand(() => OnPropertyChanged(nameof(Current)))
+                    new RelayCommand(() =>
+                        {
+                            OnPropertyChanged(nameof(Current));
+                            OnUpdate?.Execute(null);
+                        })
                 );
         }
     }

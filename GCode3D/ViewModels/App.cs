@@ -56,7 +56,10 @@ namespace GCode3D.ViewModels
 
                     // Trigger only when the program is the same across the viewmodels
                     if(RunningViewModel.Current == PreviewViewModel.Current)
+                    {
                         PreviewViewModel.Current.CurrentCommand = RunningViewModel.Current.CurrentCommand;
+                        PreviewViewModel.Refresh();
+                    }
 
                     Debug.WriteLine($"Current command: [{RunningViewModel.Current.CurrentIndex}] {RunningViewModel.Current.CurrentCommand.Code}");
                 });

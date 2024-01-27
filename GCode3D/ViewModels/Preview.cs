@@ -1,4 +1,4 @@
-﻿using HelixToolkit.SharpDX.Core;
+using HelixToolkit.SharpDX.Core;
 using System.Windows;
 using SharpDX;
 using GCode3D.Models.Program;
@@ -80,6 +80,10 @@ namespace GCode3D.ViewModels
                     Geometry = geometry,
                 }
             );
+        }
+
+        public void Refresh()
+        {
         }
 
         #region IDisposable
