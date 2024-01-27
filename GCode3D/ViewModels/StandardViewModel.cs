@@ -6,7 +6,7 @@ namespace GCode3D.ViewModels
     public class StandardViewModel : INotifyPropertyChanged, IDisposable
     {
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string info = "")
         {
@@ -15,7 +15,7 @@ namespace GCode3D.ViewModels
 
         protected bool Set<T>(ref T backingField, T value, [CallerMemberName]string propertyName = "")
         {
-            if (object.Equals(backingField, value))
+            if (Equals(backingField, value))
                 return false;
 
             backingField = value;
@@ -24,7 +24,8 @@ namespace GCode3D.ViewModels
         }
         #endregion
         #region IDisposable
-        public virtual void Dispose() {}
+        public virtual void Dispose() =>
+            GC.SuppressFinalize(this);
         #endregion
     }
 }

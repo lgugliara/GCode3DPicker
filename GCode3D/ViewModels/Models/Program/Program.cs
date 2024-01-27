@@ -1,33 +1,52 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
-using GCode3D.Models.Picker;
 using GCode3D.ViewModels;
 using HelixToolkit.SharpDX.Core;
+using HelixToolkit.Wpf.SharpDX;
 using SharpDX;
 
 namespace GCode3D.Models.Program
 {
     public class Program : StandardViewModel, IRunnable
     {
-        private File _File = new();
-        public File File
+        private static LineBuilder CreatePivot(Vector3 offset = default)
+        {
+            var g = new LineBuilder();
+            g.AddLine(Vector3.Right + offset, Vector3.Left + offset);
+            g.AddLine(Vector3.Down + offset, Vector3.Up + offset);
+            g.AddLine(Vector3.BackwardLH + offset, Vector3.ForwardLH + offset);
+            return g;
+        }
+
+        private FileInfo? _File;
+        public FileInfo? File
         {
             get => _File;
-            set => Set(ref _File, value);
+            set
+            {
+                Set(ref _File, value);
+                Load();
+            }
         }
 
         private List<StatelessCommand> _Commands = [];
         public List<StatelessCommand> Commands
         {
             get => _Commands;
-            set => Set(ref _Commands, value);
+            private set => Set(ref _Commands, value);
         }
 
         private StatelessCommand _CurrentCommand = new();
         public StatelessCommand CurrentCommand
         {
             get => _CurrentCommand;
-            set => Set(ref _CurrentCommand, value);
+            set
+            {
+                Set(ref _CurrentCommand, value);
+                Update();
+            }
         }
         
         private int _CurrentIndex = 0;
@@ -42,7 +61,6 @@ namespace GCode3D.Models.Program
         private Task? _Task;
         private Task? Task
         {
-            get => _Task;
             set {
                 Set(ref _Task, value);
                 OnPropertyChanged(nameof(Action));
@@ -57,6 +75,35 @@ namespace GCode3D.Models.Program
                 Vector3.Lerp(ref from, ref to, (float)Stopwatch.Elapsed.TotalSeconds, out Vector3 position);
                 return position;
             }
+        }
+
+        private LineGeometryModel3D _Preview =
+            new()
+            {
+                Thickness = 1,
+                Smoothness = 2,
+                Color = System.Windows.Media.Colors.Blue,
+                IsThrowingShadow = false,
+            };
+        public LineGeometryModel3D Preview
+        {
+            get => _Preview;
+            set => Set(ref _Preview, value);
+        }
+
+        private LineGeometryModel3D _Pivot =
+            new()
+            {
+                Thickness = 1,
+                Smoothness = 2,
+                Color = System.Windows.Media.Colors.Red,
+                IsThrowingShadow = false,
+                Geometry = CreatePivot().ToLineGeometry3D(),
+            };
+        public LineGeometryModel3D Pivot
+        {
+            get => _Pivot;
+            set => Set(ref _Pivot, value);
         }
 
         public string Progress
@@ -86,12 +133,40 @@ namespace GCode3D.Models.Program
                     "Run";
         }
 
-        public async Task<LineBuilder> ToLineBuilder() =>
-            await Task.Run(() => {
+        private void Load()
+        {
+            if(File == null)
+                return;
+
+            Commands = [.. Parser.From(File)];
+            Preview = new()
+            {
+                Thickness = 1,
+                Smoothness = 2,
+                Color = System.Windows.Media.Colors.Blue,
+                IsThrowingShadow = false,
+                Geometry = ToLineBuilder().ToLineGeometry3D(),
+            };
+        }
+
+        private void Update()
+        {
+            Pivot = new()
+            {
+                Thickness = 1,
+                Smoothness = 2,
+                Color = System.Windows.Media.Colors.Red,
+                IsThrowingShadow = false,
+                Geometry = CreatePivot(CurrentPosition).ToLineGeometry3D(),
+            };
+        }
+
+        public LineBuilder ToLineBuilder()
+            {
                 var g = new LineBuilder();
                 Commands.ForEach(c => g.AddLine(c.From, c.To));
                 return g;
-            });
+            }
 
         #region IGCRunnable
         public bool IsRunning
@@ -109,7 +184,7 @@ namespace GCode3D.Models.Program
                     CurrentCommand.IsCompleted = true;
                     index++;
 
-                    CurrentCommand = c;
+                    Application.Current.Dispatcher.Invoke(() => CurrentCommand = c);
                     CurrentIndex = index;
                     CurrentCommand.IsRunning = true;
 

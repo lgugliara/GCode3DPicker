@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
     
         <hx:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
-            <hx:LineGeometryModel3D Geometry="{Binding Preview.Geometry}" Color="{Binding Preview.Color}" />
-            <hx:LineGeometryModel3D Geometry="{Binding Pivot.Geometry}" Color="{Binding Pivot.Color}" />
+            <hx:LineGeometryModel3D Geometry="{Binding Current.Preview.Geometry}" Color="{Binding Current.Preview.Color}" />
+            <hx:LineGeometryModel3D Geometry="{Binding Current.Pivot.Geometry}" Color="{Binding Current.Pivot.Color}" />
         </hx:Viewport3DX>
     
         <Border Grid.Row="2" BorderBrush="White" BorderThickness="1, 0, 0, 0">

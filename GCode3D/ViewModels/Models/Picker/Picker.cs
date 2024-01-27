@@ -1,70 +1,88 @@
 ﻿using System.IO;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using GCode3D.ViewModels;
-using GCode3D.ViewModels.Models.Picker;
 
 namespace GCode3D.Models.Picker
 {
     public class Picker : StandardViewModel
     {
-        public static readonly string DefaultPath = @"C:/GCode3DPicker/GCode3D/resources/gcodes";
+        private static readonly string DefaultPath = @"C:/GCode3DPicker/GCode3D/resources/gcodes";
 
-        private IPickable _Location = new Folder() { Path = DefaultPath };
-        public IPickable Location
+        private DirectoryInfo? _Location = new(DefaultPath);
+        public DirectoryInfo? Location
         {
             get => _Location;
             set
             {
-                Watcher.Path = value.Path;
                 Set(ref _Location, value);
-                Refresh();
+                OnRefresh();
             }
         }
 
-        private File? _Selection;
-        public File? Selection
+        private FileInfo? _Selection;
+        public FileInfo? Selection
         {
             get => _Selection;
             set => Set(ref _Selection, value);
         }
 
-        public Watcher Watcher { get; private set; } = new();
-
-        public IEnumerable<Folder> Folders
+        private FileSystemWatcher _Watcher = 
+            new()
+            {
+                Path = DefaultPath,
+                Filter = "*.gcode",
+                EnableRaisingEvents = true,
+                NotifyFilter = NotifyFilters.Attributes
+                            | NotifyFilters.CreationTime
+                            | NotifyFilters.DirectoryName
+                            | NotifyFilters.FileName
+                            | NotifyFilters.LastAccess
+                            | NotifyFilters.LastWrite
+                            | NotifyFilters.Security
+                            | NotifyFilters.Size,
+            };
+        private FileSystemWatcher Watcher
         {
-            get => [
-                .. Directory.GetDirectories(Location.Path, "*", SearchOption.AllDirectories)
-                .Select(filename => new Folder
-                {
-                    Path = filename
-                })
-                .OrderBy(e => e.Filename)
-            ];
+            get => _Watcher;
+            set => Set(ref _Watcher, value);
         }
 
-        public IEnumerable<File> Files
-        {
-            get => [
-                .. Directory.GetFiles(Location.Path)
-                .Select(filename => new File
-                {
-                    Path = filename,
-                    Type = PickableType.File
-                })
-                .OrderBy(e => e.Filename)
-            ];
-        }
+        private IEnumerable<DirectoryInfo>? Folders => 
+            Location?.EnumerateDirectories()
+            .Where(e => 
+                (e.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden &&
+                e.Name != e.Extension
+            )
+            .OrderBy(e => e.Name);
 
-        public IEnumerable<IPickable> Content
+        private IEnumerable<FileInfo>? Files =>
+            Location?.EnumerateFiles("*.gcode")
+            .Where(e => 
+                (e.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden &&
+                e.Name != e.Extension
+            )
+            .OrderBy(e => e.Name);
+
+        public IEnumerable<FileSystemInfo> Content
         {
             get => [.. Folders, .. Files];
         }
 
-        public void Refresh()
+        public Picker()
         {
-            OnPropertyChanged(nameof(Files));
-            OnPropertyChanged(nameof(Folders));
+            Watcher.Created += (s, e) => OnRefresh();
+            Watcher.Deleted += (s, e) => OnRefresh();
+            Watcher.Renamed += (s, e) => OnRefresh();
+            Watcher.Changed += (s, e) => OnRefresh();
+        }
+
+        private void OnRefresh()
+        {
+            Watcher.Path = Location?.ToString() ?? DefaultPath;
+            Watcher.BeginInit();
             OnPropertyChanged(nameof(Content));
         }
+
+        public override string ToString()
+            => Path.GetFileNameWithoutExtension(Location?.Name) ?? string.Empty;
     }
 }

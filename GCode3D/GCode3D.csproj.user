@@ -6,11 +6,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="ViewModels\Models\Picker\Watcher.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>

@@ -1,31 +1,30 @@
 ﻿using System.Globalization;
 using SharpDX;
 using System.IO;
-using GCode3D.Models.Picker;
 
 namespace GCode3D.Models
 {
     public static class Parser
     {
         // TODO: Scritta così fa cagare
-        public static IEnumerable<StatelessCommand> From(IPickable? from = null)
+        public static List<StatelessCommand> From(FileInfo? from = null)
         {
             // TODO: Handle with exceptions (ArgumentNullException)
             if(from == null)
                 return [];
 
-            StreamReader sr = new(from.Path);
+            using StreamReader sr = from.OpenText();
             List<StatelessCommand> commands = [];
             var line = sr.ReadLine();
             Vector3 currentPoint = new();
 
             while (line != null)
             {
-                if(line.StartsWith("G01"))
+                if (line.StartsWith("G01"))
                 {
                     // Parse each G-code command
                     string[] parts = line.Split(' ');
-                
+
                     if (parts.Length > 1)
                     {
                         // Extract command and values
@@ -38,7 +37,8 @@ namespace GCode3D.Models
                             ParseCoordinate(parts.First(part => part.StartsWith('Z')), 0)
                         );
 
-                        commands.Add(new StatelessCommand {
+                        commands.Add(new StatelessCommand
+                        {
                             From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
                             To = newPoint,
                             Code = line

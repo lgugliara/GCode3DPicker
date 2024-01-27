@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using GCode3D.Models;
+﻿using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Program;
+using System.Diagnostics;
 
 namespace GCode3D.ViewModels
 {
@@ -14,54 +12,36 @@ namespace GCode3D.ViewModels
             get => _PickerViewModel;
             set => Set(ref _PickerViewModel, value);
         }
-        
+
         private PreviewViewModel _PreviewViewModel = new();
         public PreviewViewModel PreviewViewModel
         {
             get => _PreviewViewModel;
             set => Set(ref _PreviewViewModel, value);
         }
-        
+
         private RunningViewModel _RunningViewModel = new();
         public RunningViewModel RunningViewModel
         {
             get => _RunningViewModel;
             set => Set(ref _RunningViewModel, value);
         }
-        
+
         public AppViewModel()
         {
-            PickerViewModel.PreviewCommand = 
-                new RelayCommand(() => {
-                    Program program = new()
+            PickerViewModel.OnSelect =
+                new RelayCommand(() =>
                     {
-                        File = PickerViewModel.Current.Selection,
-                        Commands = Parser.From(PickerViewModel?.Current?.Selection).ToList(),
-                    };
-
-                    PreviewViewModel.Current = program;
-                    PreviewViewModel.LoadProgram();
-
-                    // TODO: Remove from here and add to a new command
-                    RunningViewModel.Current = program;
-                });
-                
-            RunningViewModel.OnUpdate = 
-                new RelayCommand(() => {
-                    if(PreviewViewModel.Current == null)
-                        return;
-
-                    if(RunningViewModel.Current == null)
-                        return;
-
-                    // Trigger only when the program is the same across the viewmodels
-                    if(RunningViewModel.Current == PreviewViewModel.Current)
-                    {
-                        PreviewViewModel.Current.CurrentCommand = RunningViewModel.Current.CurrentCommand;
-                        PreviewViewModel.Refresh();
+                        Program program = new();
+                        PreviewViewModel.Current = RunningViewModel.Current = program;
+                        PreviewViewModel.Current.File = PickerViewModel.Current?.Selection;
                     }
+                );
 
-                    Debug.WriteLine($"Current command: [{RunningViewModel.Current.CurrentIndex}] {RunningViewModel.Current.CurrentCommand.Code}");
+            RunningViewModel.OnUpdate =
+                new RelayCommand(() =>
+                {
+                    Debug.WriteLine($"Current command: [{PreviewViewModel?.Current?.CurrentIndex}] {PreviewViewModel?.Current?.CurrentCommand.Code}");
                 });
         }
     }

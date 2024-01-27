@@ -1,48 +1,37 @@
 ﻿using System.IO;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Picker;
 
 namespace GCode3D.ViewModels
 {
     public class PickerViewModel : StandardViewModel
     {
-        public ICommand PreviewCommand { get; set; }
+        public IRelayCommand? OnSelect { get; set; }
 
-        public Picker? _Current = new();
+        private Picker? _Current = new();
         public Picker? Current
         {
             get => _Current;
             set => Set(ref _Current, value);
         }
 
-        public PickerViewModel()
+        public void Select(FileSystemInfo? from = null)
         {
-            // Attach the events to the watcher
-            // (Realtime update of the picker)
-            _Current.Watcher.Renamed += LoadWatcher;
-            _Current.Watcher.Created += LoadWatcher;
-            _Current.Watcher.Deleted += LoadWatcher;
-            _Current.Watcher.Changed += LoadWatcher;
-        }
+            // TODO: Handle with exceptions (ArgumentNullException)
+            if (from == null)
+                return;
 
-        public async Task Select(IPickable? from = null) =>
-            await Task.Run(() =>
-                {
-                    // TODO: Handle with exceptions (ArgumentNullException)
-                    if (from == null)
-                        return;
-
-                    if (Current == null)
-                        return;
+            if (Current == null)
+                return;
                     
-                    if(from is Folder)
-                        Current.Location = from;
-                    else if(from is GCode3D.Models.Picker.File)
-                        Current.Selection = from as GCode3D.Models.Picker.File;
-
-                    PreviewCommand?.Execute(null);
-                }
-            );
+            if(from is DirectoryInfo)
+                Current.Location = from as DirectoryInfo;
+            else if(from is FileInfo)
+            {
+                Current.Selection = from as FileInfo;
+                OnSelect?.Execute(null);
+            }
+        }
 
         public async Task Back() =>
             await Task.Run(() =>
@@ -51,24 +40,19 @@ namespace GCode3D.ViewModels
                         return;
 
                     // TODO: Handle with exceptions (ArgumentNullException)
-                    if (Current.Location?.Parent is not Folder back)
+                    if (Current.Location?.Parent is not DirectoryInfo back)
                         return;
 
-                    if (Current.Location?.Path == back.Path)
+                    if (Current.Location?.ToString() == back.ToString())
                         return;
                     
                     Current.Location = back;
                 }
             );
 
-        public void LoadWatcher(object sender, FileSystemEventArgs e) => 
-            Current?.Refresh();
-
         #region IDisposable
-        public override void Dispose()
-        {
-            Current?.Watcher.Dispose();
-        }
+        public override void Dispose() =>
+            Current?.Dispose();
         #endregion
     }
 }
