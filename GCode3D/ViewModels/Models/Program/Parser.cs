@@ -28,7 +28,7 @@ namespace GCode3D.Models
                     if (parts.Length > 1)
                     {
                         // Extract command and values
-                        string gCommand = parts[1].ToUpper(); // Assumes command is at index 1
+                        string gCommand = parts[0].ToUpper();
 
                         // Add the new point to the spline
                         var newPoint = new Vector3(
@@ -41,7 +41,8 @@ namespace GCode3D.Models
                         {
                             From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
                             To = newPoint,
-                            Code = line
+                            Code = line,
+                            CommandCode = gCommand
                         });
                         currentPoint = newPoint;
                     }
