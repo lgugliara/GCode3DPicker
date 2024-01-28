@@ -7,21 +7,27 @@
 
     <UserControl.Resources>
         <local:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
+        <local:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
     </UserControl.Resources>
 
     <!-- Your UserControl content here -->
     <Grid Grid.Column="1" Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="340" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
     
+        <!-- Program 3D View -->
         <hx:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
             <hx:LineGeometryModel3D Geometry="{Binding Current.Preview.Geometry}" Color="{Binding Current.Preview.Color}" />
             <hx:LineGeometryModel3D Geometry="{Binding Current.Pivot.Geometry}" Color="{Binding Current.Pivot.Color}" />
         </hx:Viewport3DX>
-    
+        
+        <!-- File Name -->
+        <Label Grid.Row="1" Content="{Binding Current.File.Name, Converter={StaticResource FileNameWithoutExtension}}" Foreground="White" FontSize="20" Margin="0, 30, 0, 30" />
+        
+        <!-- File Info -->
         <Border Grid.Row="2" BorderBrush="White" BorderThickness="1, 0, 0, 0">
             <Grid Margin="20, 0, 0, 0">
                 <Grid.ColumnDefinitions>
