@@ -2,34 +2,65 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:GCode3D.Converters"
     Background="Transparent">
+
+    <UserControl.Resources>
+        <local:ProgramProgressDescription x:Key="ProgramProgressDescription" />
+        <local:ProgramCurrentCoordinateX x:Key="ProgramCurrentCoordinateX" />
+        <local:ProgramCurrentCoordinateY x:Key="ProgramCurrentCoordinateY" />
+        <local:ProgramCurrentCoordinateZ x:Key="ProgramCurrentCoordinateZ" />
+        <local:ProgramStatusAction x:Key="ProgramStatusAction" />
+    </UserControl.Resources>
 
     <!-- Your UserControl content here -->
     <Border CornerRadius="20" Background="White" Margin="30, 10, 30, 30">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Margin="15, 10, 10, 10" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="{Binding Current.Description}" FontSize="14" />
-                <Border Grid.Row="1" BorderThickness="0, 1, 0, 0" BorderBrush="Gray"
-                    HorizontalAlignment="Left">
-                    <Label Content="{Binding Current.IsRunning}" FontStyle="Italic" FontSize="10" />
+            <Grid Grid.Column="0" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" CornerRadius="20" Background="#272537">
+                    <Button IsEnabled="false" Foreground="White" Background="Transparent" BorderThickness="0">
+                        <iconPacks:PackIconBoxIcons Kind="RegularChevronUp" Height="15" Width="15" Margin="10" />
+                    </Button>
+                </Border>
+                <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Current, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
+                <Border Grid.Column="2" BorderThickness="1, 0, 0, 0" BorderBrush="#272537" VerticalAlignment="Center">
+                    <Grid VerticalAlignment="Center" Margin="10, 0, 0, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="{Binding Current.CurrentCommand.CommandCode}" FontSize="14" />
+                        <Label Grid.Column="1" Content="X" Foreground="Red" FontSize="14" />
+                        <Label Grid.Column="2" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateX}}" FontSize="14" />
+                        <Label Grid.Column="3" Content="Y" Foreground="Green" FontSize="14" />
+                        <Label Grid.Column="4" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateY}}" FontSize="14" />
+                        <Label Grid.Column="5" Content="Z" Foreground="Blue" FontSize="14" />
+                        <Label Grid.Column="6" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateZ}}" FontSize="14" />
+                    </Grid>
                 </Border>
             </Grid>
 
             <Border Grid.Column="2" CornerRadius="12" Background="Red" Margin="10">
-                <Button Foreground="White" Background="Transparent" BorderThickness="0"
-                    Click="RunToggle_Click">
-                    <Label Content="{Binding Current.Action}" FontSize="20" Foreground="White" />
+                <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="RunToggle_Click">
+                    <Label Content="{Binding Current, Converter={StaticResource ProgramStatusAction}}" FontSize="14" Foreground="White" />
                 </Button>
             </Border>
         </Grid>
