@@ -39,5 +39,12 @@ namespace GCode3D.Models
             get => _Code;
             set => Set(ref _Code, value);
         }
+
+        private string _CommandCode = string.Empty;
+        public string CommandCode
+        {
+            get => _CommandCode;
+            set => Set(ref _CommandCode, value);
+        }
     }
 }
