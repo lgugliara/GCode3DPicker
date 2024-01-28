@@ -2,7 +2,7 @@
 using SharpDX;
 using System.IO;
 
-namespace GCode3D.Models
+namespace GCode3D.Models.Program
 {
     public static class Parser
     {

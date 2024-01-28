@@ -1,4 +1,4 @@
-namespace GCode3D.Models.Picker
+namespace GCode3D.Models.Enums
 {
     public enum PickableType
     {

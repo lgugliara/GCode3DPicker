@@ -2,14 +2,15 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using GCode3D.ViewModels;
+using GCode3D.Components;
+using GCode3D.Models.Interfaces;
 using HelixToolkit.SharpDX.Core;
 using HelixToolkit.Wpf.SharpDX;
 using SharpDX;
 
 namespace GCode3D.Models.Program
 {
-    public class Program : StandardViewModel, IRunnable
+    public class Program : StandardComponent, IRunnable
     {
         private static LineBuilder CreatePivot(Vector3 offset = default)
         {

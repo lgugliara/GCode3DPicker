@@ -1,18 +1,13 @@
-﻿<Window x:Class="GCode3D.MainWindow"
+﻿<Window x:Class="GCode3D.Components.MainWindowControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vs="clr-namespace:GCode3D.Views"
-    xmlns:vms="clr-namespace:GCode3D.ViewModels"
+    xmlns:components="clr-namespace:GCode3D.Components"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d" Height="Auto" Width="1200"
     WindowStyle="None"
     ResizeMode="CanResizeWithGrip" Background="Transparent" AllowsTransparency="True">
-    
-    <Window.DataContext>
-        <vms:AppViewModel />
-    </Window.DataContext>
     
     <Window.Resources>
         <Storyboard x:Key="MouseEnterStoryboard">
@@ -56,14 +51,14 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Picker -->
-                <vs:Picker Grid.Column="0" DataContext="{Binding PickerViewModel}" />
+                <components:PickerControl Grid.Column="0" DataContext="{Binding PickerComponent}" />
 
                 <!-- Preview -->
-                <vs:Preview Grid.Column="1" DataContext="{Binding PreviewViewModel}" />
+                <components:PreviewControl Grid.Column="1" DataContext="{Binding PreviewComponent}" />
             </Grid>            
             
             <!-- Running Program -->
-            <vs:Running Grid.Row="2" DataContext="{Binding RunningViewModel}" />
+            <components:RunningControl Grid.Row="2" DataContext="{Binding RunningComponent}" />
         </Grid>
     </Border>
 </Window>

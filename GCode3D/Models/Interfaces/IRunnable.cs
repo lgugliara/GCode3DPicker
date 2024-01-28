@@ -1,9 +1,6 @@
-﻿// I want interfaces to be in the same folder as models
-// so that are easy to find and use.
+﻿using System.Windows.Input;
 
-using System.Windows.Input;
-
-namespace GCode3D.Models
+namespace GCode3D.Models.Interfaces
 {
     public interface IRunnable
     {

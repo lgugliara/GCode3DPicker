@@ -1,16 +1,16 @@
-<UserControl x:Class="GCode3D.Views.Running"
+<UserControl x:Class="GCode3D.Components.RunningControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:GCode3D.Converters"
+    xmlns:converters="clr-namespace:GCode3D.Converters"
     Background="Transparent">
 
     <UserControl.Resources>
-        <local:ProgramProgressDescription x:Key="ProgramProgressDescription" />
-        <local:ProgramCurrentCoordinateX x:Key="ProgramCurrentCoordinateX" />
-        <local:ProgramCurrentCoordinateY x:Key="ProgramCurrentCoordinateY" />
-        <local:ProgramCurrentCoordinateZ x:Key="ProgramCurrentCoordinateZ" />
-        <local:ProgramStatusAction x:Key="ProgramStatusAction" />
+        <converters:ProgramProgressDescription x:Key="ProgramProgressDescription" />
+        <converters:ProgramCurrentCoordinateX x:Key="ProgramCurrentCoordinateX" />
+        <converters:ProgramCurrentCoordinateY x:Key="ProgramCurrentCoordinateY" />
+        <converters:ProgramCurrentCoordinateZ x:Key="ProgramCurrentCoordinateZ" />
+        <converters:ProgramStatusAction x:Key="ProgramStatusAction" />
     </UserControl.Resources>
 
     <!-- Your UserControl content here -->

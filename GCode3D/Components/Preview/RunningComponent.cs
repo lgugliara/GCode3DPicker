@@ -2,9 +2,9 @@
 using GCode3D.Models.Program;
 using HelixToolkit.Wpf.SharpDX;
 
-namespace GCode3D.ViewModels
+namespace GCode3D.Components
 {
-    public class PreviewViewModel : StandardViewModel
+    public class PreviewComponent : StandardComponent
     {
         private Program? _Current = new();
         public Program? Current

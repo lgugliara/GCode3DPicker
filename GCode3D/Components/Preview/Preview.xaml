@@ -1,13 +1,13 @@
-<UserControl x:Class="GCode3D.Views.Preview"
+<UserControl x:Class="GCode3D.Components.PreviewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
-    xmlns:local="clr-namespace:GCode3D.Converters"
+    xmlns:helix="http://helix-toolkit.org/wpf/SharpDX"
+    xmlns:converters="clr-namespace:GCode3D.Converters"
     Background="Transparent">
 
     <UserControl.Resources>
-        <local:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
-        <local:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
+        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
+        <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
     </UserControl.Resources>
 
     <!-- Your UserControl content here -->
@@ -19,10 +19,10 @@
         </Grid.RowDefinitions>
     
         <!-- Program 3D View -->
-        <hx:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
-            <hx:LineGeometryModel3D Geometry="{Binding Current.Preview.Geometry}" Color="{Binding Current.Preview.Color}" />
-            <hx:LineGeometryModel3D Geometry="{Binding Current.Pivot.Geometry}" Color="{Binding Current.Pivot.Color}" />
-        </hx:Viewport3DX>
+        <helix:Viewport3DX Grid.Row="0" Background="White" HorizontalAlignment="Right" EffectsManager="{Binding EffectsManager}" Camera="{Binding Camera}">
+            <helix:LineGeometryModel3D Geometry="{Binding Current.Preview.Geometry}" Color="{Binding Current.Preview.Color}" />
+            <helix:LineGeometryModel3D Geometry="{Binding Current.Pivot.Geometry}" Color="{Binding Current.Pivot.Color}" />
+        </helix:Viewport3DX>
         
         <!-- File Name -->
         <Label Grid.Row="1" Content="{Binding Current.File.Name, Converter={StaticResource FileNameWithoutExtension}}" Foreground="White" FontSize="20" Margin="0, 30, 0, 30" />

@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Program;
 
-namespace GCode3D.ViewModels
+namespace GCode3D.Components
 {
-    public class RunningViewModel : StandardViewModel
+    public class RunningComponent : StandardComponent
     {
         public ICommand? OnUpdate { get; set; }
         

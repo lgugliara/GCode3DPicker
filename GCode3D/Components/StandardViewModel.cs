@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GCode3D.ViewModels
+namespace GCode3D.Components
 {
-    public class StandardViewModel : INotifyPropertyChanged, IDisposable
+    public class StandardComponent : INotifyPropertyChanged, IDisposable
     {
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

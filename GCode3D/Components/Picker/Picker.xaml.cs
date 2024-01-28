@@ -1,19 +1,18 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using GCode3D.ViewModels;
 
-namespace GCode3D.Views
+namespace GCode3D.Components
 {
-    public partial class Picker : UserControl
+    public partial class PickerControl : UserControl
     {
-        private PickerViewModel? VM
+        private PickerComponent? VM
         {
-            get => DataContext as PickerViewModel;
+            get => DataContext as PickerComponent;
             set => DataContext = value;
         }
 
-        public Picker()
+        public PickerControl()
         {
             InitializeComponent();
         }

@@ -1,18 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using GCode3D.ViewModels;
 
-namespace GCode3D.Views
+namespace GCode3D.Components
 {
-    public partial class Running : UserControl
+    public partial class RunningControl : UserControl
     {
-        private RunningViewModel? VM
+        private RunningComponent? VM
         {
-            get => DataContext as RunningViewModel;
+            get => DataContext as RunningComponent;
             set => DataContext = value;
         }
 
-        public Running()
+        public RunningControl()
         {
             InitializeComponent();
         }

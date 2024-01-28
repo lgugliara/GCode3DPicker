@@ -1,20 +1,18 @@
 ﻿using System.Windows;
-using GCode3D.ViewModels;
 
-namespace GCode3D
+namespace GCode3D.Components
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindowControl : Window
     {
-        private AppViewModel AppViewModel { get; set; } = new();
+        private MainWindowComponent MainWindowComponent { get; set; } = new();
 
-        public MainWindow()
+        public MainWindowControl()
         {
             InitializeComponent();
-            AppViewModel = new();
-            DataContext = AppViewModel;
+            DataContext = MainWindowComponent;
         }
 
         private void AppClose_Click(object sender, RoutedEventArgs e)

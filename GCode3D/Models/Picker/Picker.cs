@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using GCode3D.ViewModels;
+using GCode3D.Components;
 
 namespace GCode3D.Models.Picker
 {
-    public class Picker : StandardViewModel
+    public class Picker : StandardComponent
     {
         private static readonly string DefaultPath = @"C:/GCode3DPicker/GCode3D/resources/gcodes";
 

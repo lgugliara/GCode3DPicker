@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Picker;
 
-namespace GCode3D.ViewModels
+namespace GCode3D.Components
 {
-    public class PickerViewModel : StandardViewModel
+    public class PickerComponent : StandardComponent
     {
         public IRelayCommand? OnSelect { get; set; }
 

@@ -1,9 +1,9 @@
-﻿using GCode3D.ViewModels;
+﻿using GCode3D.Components;
 using SharpDX;
 
-namespace GCode3D.Models
+namespace GCode3D.Models.Program
 {
-    public class StatelessCommand : StandardViewModel
+    public class StatelessCommand : StandardComponent
     {
         private bool _IsCompleted = false;
         public bool IsCompleted
