@@ -35,7 +35,7 @@
         </Grid>
 
         <!-- Picker Content -->
-        <ListBox Grid.Row="1" Foreground="White" BorderThickness="0" Background="Transparent" Height="420" VerticalAlignment="Top"
+        <ListBox Grid.Row="1" Foreground="White" BorderThickness="0" Background="Transparent" VerticalAlignment="Top"
             Margin="0, 30, 0, 0" ItemsSource="{Binding Current.Content}" Name="programsListBox" SelectionChanged="ListBox_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
