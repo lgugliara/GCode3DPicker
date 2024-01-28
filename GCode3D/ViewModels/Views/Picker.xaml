@@ -6,7 +6,7 @@
     Background="Transparent">
 
     <UserControl.Resources>
-        <local:FileNameWithoutExtensionConverter x:Key="FileNameWithoutExtensionConverter" />
+        <local:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
         <local:IsFileSystemInfoDirectory x:Key="IsFileSystemInfoDirectory" />
     </UserControl.Resources>
 
@@ -75,7 +75,7 @@
                                         <!-- Filename Label -->
                                         <Label Grid.Column="1" VerticalAlignment="Stretch"
                                             x:Name="filename"
-                                            Content="{Binding Name, Converter={StaticResource FileNameWithoutExtensionConverter}}"
+                                            Content="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
                                             Background="Transparent" Foreground="White"
                                             Margin="5" FontSize="15" />
 
