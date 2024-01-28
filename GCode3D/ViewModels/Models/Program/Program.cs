@@ -107,33 +107,6 @@ namespace GCode3D.Models.Program
             set => Set(ref _Pivot, value);
         }
 
-        public string Progress
-        {
-            get 
-            {
-                var factor = Commands.Count > 0 ?
-                    CurrentIndex * 100f / Commands.Count :
-                    float.NaN;
-                return factor.ToString("n2") ?? "-";
-            }
-        }
-        
-        public string Description
-        {
-            get => string.Join("\t", new List<string> {
-                $"[{CurrentIndex}/{Commands.Count - 1}] {Progress}%",
-                $"{CurrentCommand.Code}",
-            });
-        }
-
-        public string Action
-        {
-            get => 
-                IsRunning ? 
-                    "Stop" : 
-                    "Run";
-        }
-
         private void Load()
         {
             if(File == null)
