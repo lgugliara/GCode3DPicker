@@ -9,6 +9,7 @@
     mc:Ignorable="d" Height="Auto" Width="1200"
     WindowStyle="None"
     ResizeMode="CanResizeWithGrip" Background="Transparent" AllowsTransparency="True">
+    
     <Window.DataContext>
         <vms:AppViewModel />
     </Window.DataContext>
