@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -32,15 +32,21 @@ namespace GCode3D.Models.Program
             }
         }
 
-        private List<StatelessCommand> _Commands = [];
-        public List<StatelessCommand> Commands
+        private List<Instruction> _Commands = [];
+        public List<Instruction> Commands
         {
             get => _Commands;
             private set => Set(ref _Commands, value);
         }
 
-        private StatelessCommand _CurrentCommand = new();
-        public StatelessCommand CurrentCommand
+        public List<Instruction> CompletedCommands =>
+            Commands.Where(c => c.IsCompleted).ToList();
+
+        public List<Instruction> RemainingCommands =>
+            Commands.Where(c => !c.IsCompleted).ToList();
+
+        private Instruction _CurrentCommand = new();
+        public Instruction CurrentCommand
         {
             get => _CurrentCommand;
             set
@@ -139,7 +145,13 @@ namespace GCode3D.Models.Program
         public LineBuilder ToLineBuilder()
             {
                 var g = new LineBuilder();
-                Commands.ForEach(c => g.AddLine(c.From, c.To));
+                Commands.ForEach(c =>
+                {
+                    if(c is MacroInstruction m)
+                        m.Commands.ForEach(mc => g.AddLine(mc.From, mc.To));
+                    else
+                        g.AddLine(c.From, c.To);
+                });
                 return g;
             }
 

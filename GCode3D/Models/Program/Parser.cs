@@ -7,54 +7,62 @@ namespace GCode3D.Models.Program
     public static class Parser
     {
         // TODO: Scritta così fa cagare
-        public static List<StatelessCommand> From(FileInfo? from = null)
+        public static List<Instruction> From(FileInfo? from = null)
         {
             // TODO: Handle with exceptions (ArgumentNullException)
             if(from == null)
                 return [];
 
             using StreamReader sr = from.OpenText();
-            List<StatelessCommand> commands = [];
-            var line = sr.ReadLine();
-            Vector3 currentPoint = new();
+            List<Instruction> commands = [];
+            
+            Instruction previousInstruction = new();
+            string? line;
 
-            while (line != null)
+            while ((line = sr.ReadLine()) != null)
             {
-                if (line.StartsWith("G01"))
-                {
-                    // Parse each G-code command
-                    string[] parts = line.Split(' ');
+                string[] parts = line.Split(' ');
 
-                    if (parts.Length > 1)
+                if(parts.Length < 1)
+                    continue;
+                
+                Vector3 to = new();
+                Instruction? instruction = null;
+                string commandName = parts[0].ToUpper();
+
+                if (parts[0].Equals("G01"))
+                    instruction = new DiscreteInstruction()
                     {
-                        // Extract command and values
-                        string gCommand = parts[0].ToUpper();
-
-                        // Add the new point to the spline
-                        var newPoint = new Vector3(
+                        OriginalValue = line,
+                        From = previousInstruction.To,
+                        To = new Vector3(
                             ParseCoordinate(parts.First(part => part.StartsWith('X')), 0),
                             ParseCoordinate(parts.First(part => part.StartsWith('Y')), 0),
                             ParseCoordinate(parts.First(part => part.StartsWith('Z')), 0)
-                        );
+                        ),
+                        Name = commandName,
+                    };
 
-                        commands.Add(new StatelessCommand
-                        {
-                            From = new Vector3(currentPoint.X, currentPoint.Y, currentPoint.Z),
-                            To = newPoint,
-                            Code = line,
-                            CommandCode = gCommand
-                        });
-                        currentPoint = newPoint;
-                    }
-                }
+                else if(parts[0].StartsWith("HOLE"))
+                    instruction = new MacroInstruction()
+                    {
+                        OriginalValue = line,
+                        From = previousInstruction.To,
+                        To = previousInstruction.To,
+                        Name = commandName,
+                    };
+                  
+                if(instruction == null)
+                    continue;
 
-                line = sr.ReadLine();
+                commands.Add(instruction);
+                previousInstruction = instruction;
             }
 
             return commands;
         }
 
-        private static float ParseCoordinate(string value, float defaultValue) =>
+        public static float ParseCoordinate(string value, float defaultValue) =>
             float.TryParse(value[1..], CultureInfo.InvariantCulture, out float result) ?
                 result : defaultValue;
     }
