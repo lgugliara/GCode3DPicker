@@ -41,7 +41,7 @@ namespace GCode3D.Components
             RunningComponent.OnUpdate =
                 new RelayCommand(() =>
                 {
-                    Debug.WriteLine($"Current command: [{PreviewComponent?.Current?.CurrentIndex}] {PreviewComponent?.Current?.CurrentCommand.Code}");
+                    //Debug.WriteLine($"Current command: [{PreviewComponent?.Current?.CurrentIndex}] {PreviewComponent?.Current?.CurrentCommand.Name}");
                 });
         }
     }
