@@ -43,7 +43,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <Border x:Name="border" CornerRadius="10" Opacity="0" Margin="5" BorderBrush="Transparent" BorderThickness="1">
+                                <Border x:Name="border" CornerRadius="10" Opacity="0" Margin="5" BorderBrush="Transparent">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40" />
@@ -65,7 +65,7 @@
                                         </iconPacks:PackIconBoxIcons>
 
                                         <!-- Filename Label -->
-                                        <Label Grid.Column="1" VerticalAlignment="Stretch"
+                                            <Label Grid.Column="1"
                                             x:Name="filename"
                                             Content="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
                                             Background="Transparent" Foreground="White"
@@ -98,7 +98,6 @@
 
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="filename" Property="Foreground" Value="#272537" />
-                                        <!--<Setter TargetName="running" Property="Foreground" Value="#272537" />-->
                                         <Setter TargetName="border" Property="Background" Value="White" />
                                         <Setter TargetName="border" Property="BorderBrush" Value="White" />
                                     </Trigger>

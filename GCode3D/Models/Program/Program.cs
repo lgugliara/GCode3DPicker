@@ -155,7 +155,7 @@ namespace GCode3D.Models.Program
                 return g;
             }
 
-        #region IGCRunnable
+        #region IRunnable
         public bool IsRunning
         {
             get => Task?.Status == TaskStatus.Running;    
