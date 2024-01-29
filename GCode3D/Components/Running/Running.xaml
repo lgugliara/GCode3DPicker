@@ -16,52 +16,83 @@
     <!-- Your UserControl content here -->
     <Border CornerRadius="20" Background="White" Margin="30, 10, 30, 30">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="120" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-
-            <Grid Grid.Column="0" Margin="10">
+            <!-- Program Overview -->
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="120" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" CornerRadius="20" Background="#272537">
-                    <Button IsEnabled="false" Foreground="White" Background="Transparent" BorderThickness="0">
-                        <iconPacks:PackIconBoxIcons Kind="RegularChevronUp" Height="15" Width="15" Margin="10" />
-                    </Button>
-                </Border>
-                <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Current, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
-                <Border Grid.Column="2" BorderThickness="1, 0, 0, 0" BorderBrush="#272537" VerticalAlignment="Center">
-                    <Grid VerticalAlignment="Center" Margin="10, 0, 0, 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="20" />
-                            <ColumnDefinition Width="120" />
-                        </Grid.ColumnDefinitions>
+                <!-- Program Current Instruction -->
+                <Grid Grid.Column="0" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" CornerRadius="20" Background="#272537">
+                        <Button IsEnabled="false" Foreground="White" Background="Transparent" BorderThickness="0">
+                            <iconPacks:PackIconBoxIcons Kind="RegularChevronUp" Height="15" Width="15" Margin="10" />
+                        </Button>
+                    </Border>
+                    <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Current, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
+                    <Border Grid.Column="2" BorderThickness="1, 0, 0, 0" BorderBrush="#272537" VerticalAlignment="Center">
+                        <Grid VerticalAlignment="Center" Margin="10, 0, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" Content="{Binding Current.CurrentCommand.Name}" FontSize="14" />
-                        <Label Grid.Column="1" Content="X" Foreground="Red" FontSize="14" />
-                        <Label Grid.Column="2" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateX}}" FontSize="14" />
-                        <Label Grid.Column="3" Content="Y" Foreground="Green" FontSize="14" />
-                        <Label Grid.Column="4" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateY}}" FontSize="14" />
-                        <Label Grid.Column="5" Content="Z" Foreground="Blue" FontSize="14" />
-                        <Label Grid.Column="6" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateZ}}" FontSize="14" />
-                    </Grid>
+                            <Label Grid.Column="1" Content="X" Foreground="Red" FontSize="14" />
+                            <Label Grid.Column="2" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateX}}" FontSize="14" />
+                            <Label Grid.Column="3" Content="Y" Foreground="Green" FontSize="14" />
+                            <Label Grid.Column="4" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateY}}" FontSize="14" />
+                            <Label Grid.Column="5" Content="Z" Foreground="Blue" FontSize="14" />
+                            <Label Grid.Column="6" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateZ}}" FontSize="14" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Program Run Action -->
+                <Border Grid.Column="2" CornerRadius="12" Background="Red" Margin="10">
+                    <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="RunToggle_Click">
+                        <Label Content="{Binding Current, Converter={StaticResource ProgramStatusAction}}" FontSize="14" Foreground="White" />
+                    </Button>
                 </Border>
             </Grid>
 
-            <Border Grid.Column="2" CornerRadius="12" Background="Red" Margin="10">
-                <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="RunToggle_Click">
-                    <Label Content="{Binding Current, Converter={StaticResource ProgramStatusAction}}" FontSize="14" Foreground="White" />
-                </Button>
+            <!-- Remaining Program Lines -->
+            <Border Grid.Row="1" CornerRadius="12" Height="300">
+                <ListBox ItemsSource="{Binding Current.RemainingCommands}" Background="Transparent">
+            
+                    <!-- Program Line Template -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="ProgramLine" CornerRadius="10" Margin="5" Background="#eeeeee">
+                                            <Label x:Name="ProgramLineText" Grid.Column="1" Margin="5" FontFamily="Courier New" Content="{Binding OriginalValue}" Foreground="#272537" FontSize="14" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </Border>
         </Grid>
     </Border>
