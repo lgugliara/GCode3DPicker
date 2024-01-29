@@ -8,6 +8,7 @@
     <UserControl.Resources>
         <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
         <converters:IsFileSystemInfoDirectory x:Key="IsFileSystemInfoDirectory" />
+        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
     </UserControl.Resources>
 
     <!-- Your UserControl content here -->
@@ -81,50 +82,53 @@
                             <ControlTemplate TargetType="ListBoxItem">
                                 <Border x:Name="border" CornerRadius="10" Opacity="0" Margin="5" BorderBrush="Transparent">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="40" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="40" />
-                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                        <!-- Folder Icon -->
-                                        <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
-                                            <iconPacks:PackIconBoxIcons.Style>
-                                                <Style TargetType="iconPacks:PackIconBoxIcons">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding ., Converter={StaticResource IsFileSystemInfoDirectory}}" Value="false">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </iconPacks:PackIconBoxIcons.Style>
-                                        </iconPacks:PackIconBoxIcons>
-
-                                        <!-- Filename Label -->
+                                        <!-- Picker Item Content -->
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="120" />
+                                            </Grid.ColumnDefinitions>
+    
+                                            <!-- Folder Icon -->
+                                            <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
+                                                <iconPacks:PackIconBoxIcons.Style>
+                                                    <Style TargetType="iconPacks:PackIconBoxIcons">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ., Converter={StaticResource IsFileSystemInfoDirectory}}" Value="false">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </iconPacks:PackIconBoxIcons.Style>
+                                            </iconPacks:PackIconBoxIcons>
+    
+                                            <!-- Filename Label -->
                                             <Label Grid.Column="1"
-                                            x:Name="filename"
-                                            Content="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
-                                            Background="Transparent" Foreground="White"
-                                            Margin="5" FontSize="15" />
+                                                x:Name="filename"
+                                                Content="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
+                                                Background="Transparent" Foreground="White"
+                                                Margin="5" FontSize="15" />
+    
+                                            <!-- File Size -->
+                                            <Label Grid.Column="2" HorizontalAlignment="Right"
+                                                Content="{Binding Length, Converter={StaticResource FileInfoLengthFormatter}}"
+                                                Background="Transparent" Foreground="White"
+                                                Margin="5" FontSize="15" />
+                                        </Grid>
 
-                                        <!-- TODO: Find a way to compare FileInfo and Program and see if they're the same -->
-                                        <!-- Running Icon -->
-                                        <!--<iconPacks:PackIconBoxIcons Grid.Column="2" x:Name="running"
-                                            Kind="RegularMessageSquareDots" Width="20" Height="20"
-                                            Margin="10" VerticalAlignment="Center"
-                                            Foreground="White">
-                                            <iconPacks:PackIconBoxIcons.Style>
-                                                <Style TargetType="iconPacks:PackIconBoxIcons">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsRunning}"
-                                                            Value="True">
-                                                            <Setter Property="Visibility"
-                                                                Value="Visible" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </iconPacks:PackIconBoxIcons.Style>
-                                        </iconPacks:PackIconBoxIcons>-->
+                                        <!-- Picker Item Details -->
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                        </Grid>
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
