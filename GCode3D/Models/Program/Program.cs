@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -177,7 +177,7 @@ namespace GCode3D.Models.Program
                     Application.Current.Dispatcher.Invoke(() => CurrentCommand = c);
 
                     Stopwatch.Restart();
-                    await Task.Delay(50);
+                    await Task.Delay(200);
                     Stopwatch.Stop();
                     onUpdate?.Execute(null);
                 }
