@@ -74,8 +74,8 @@
             </Grid>
 
             <!-- Remaining Program Lines -->
-            <Border Grid.Row="1" CornerRadius="12" Height="300">
-                <ListBox ItemsSource="{Binding Current.RemainingCommands}" Background="Transparent">
+            <Border Grid.Row="1" CornerRadius="12" Height="300" Background="#eeeeee" Margin="10">
+                <ListBox ItemsSource="{Binding Current.RemainingCommands}" BorderThickness="0" Background="Transparent">
             
                     <!-- Program Line Template -->
                     <ListBox.ItemContainerStyle>
@@ -84,7 +84,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="ProgramLine" CornerRadius="10" Margin="5" Background="#eeeeee">
+                                        <Border x:Name="ProgramLine" CornerRadius="10" Margin="5, 2, 5, 2">
                                             <Label x:Name="ProgramLineText" Grid.Column="1" Margin="5" FontFamily="Courier New" Content="{Binding OriginalValue}" Foreground="#272537" FontSize="14" />
                                         </Border>
                                     </ControlTemplate>
