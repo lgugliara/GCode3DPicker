@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -75,10 +75,15 @@ namespace GCode3D.Models.Program
         public Vector3 CurrentPosition
         {
             get {
-                var from = CurrentCommand.From;
+                // Deprecated: This is how you interpolate inside a single instruction, not used since we are updating one time per instruction
+                /* var from = CurrentCommand.From;
                 var to = CurrentCommand.To;
-                Vector3.Lerp(ref from, ref to, (float)Stopwatch.Elapsed.TotalSeconds, out Vector3 position);
-                return position;
+                var elapsed = Stopwatch.Elapsed.TotalSeconds;
+                var lerpFactor = elapsed / (elapsed + 1);
+                Vector3.Lerp(ref from, ref to, (float)lerpFactor, out Vector3 position);
+                return position; */
+
+                return CurrentCommand.From;
             }
         }
 
