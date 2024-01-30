@@ -47,5 +47,10 @@ namespace GCode3D.Models.Program
             get => _IsCompleted;
             set => Set(ref _IsCompleted, value);
         }
+
+        public override string ToString()
+        {
+            return OriginalValue.ToString() ?? string.Empty;
+        }
     }
 }
