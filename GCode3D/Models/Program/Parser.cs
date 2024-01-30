@@ -26,7 +26,6 @@ namespace GCode3D.Models.Program
                 if(parts.Length < 1)
                     continue;
                 
-                Vector3 to = new();
                 Instruction? instruction = null;
                 string commandName = parts[0].ToUpper();
 
