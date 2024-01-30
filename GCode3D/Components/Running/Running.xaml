@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:components="clr-namespace:GCode3D.Components"
     xmlns:converters="clr-namespace:GCode3D.Converters"
     Background="Transparent">
 
@@ -72,28 +73,9 @@
                     </Button>
                 </Border>
             </Grid>
-
-            <!-- Remaining Program Lines -->
-            <Border Grid.Row="1" CornerRadius="12" Height="300" Background="#eeeeee" Margin="10">
-                <ListBox ItemsSource="{Binding Current.RemainingCommands}" BorderThickness="0" Background="Transparent">
-            
-                    <!-- Program Line Template -->
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="ProgramLine" CornerRadius="10" Margin="5, 2, 5, 2">
-                                            <Label x:Name="ProgramLineText" Grid.Column="1" Margin="5" FontFamily="Courier New" Content="{Binding OriginalValue}" Foreground="#272537" FontSize="14" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </Border>
+   
+            <!-- Output Logger: Completed Instructions -->
+            <components:OutputLoggerControl Grid.Row="2" DataContext="{Binding OutputLoggerComponent}" />
         </Grid>
     </Border>
 </UserControl>
