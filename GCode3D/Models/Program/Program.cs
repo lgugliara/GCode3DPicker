@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -12,15 +12,6 @@ namespace GCode3D.Models.Program
 {
     public class Program : StandardComponent, IRunnable
     {
-        private static LineBuilder CreatePivot(Vector3 offset = default)
-        {
-            var g = new LineBuilder();
-            g.AddLine(Vector3.Right + offset, Vector3.Left + offset);
-            g.AddLine(Vector3.Down + offset, Vector3.Up + offset);
-            g.AddLine(Vector3.BackwardLH + offset, Vector3.ForwardLH + offset);
-            return g;
-        }
-
         private FileInfo? _File;
         public FileInfo? File
         {
@@ -28,7 +19,13 @@ namespace GCode3D.Models.Program
             set
             {
                 Set(ref _File, value);
-                Load();
+                
+                if(File == null)
+                    return;
+
+                Commands = [.. Parser.From(File)];
+                Pivot.Geometry = CreatePivotGeometry();
+                Preview.Geometry = CreateCADGeometry();
             }
         }
 
@@ -88,10 +85,7 @@ namespace GCode3D.Models.Program
         private LineGeometryModel3D _Preview =
             new()
             {
-                Thickness = 1,
-                Smoothness = 2,
-                Color = System.Windows.Media.Colors.Blue,
-                IsThrowingShadow = false,
+                Color = System.Windows.Media.Colors.White,
             };
         public LineGeometryModel3D Preview
         {
@@ -102,11 +96,7 @@ namespace GCode3D.Models.Program
         private LineGeometryModel3D _Pivot =
             new()
             {
-                Thickness = 1,
-                Smoothness = 2,
                 Color = System.Windows.Media.Colors.Red,
-                IsThrowingShadow = false,
-                Geometry = CreatePivot().ToLineGeometry3D(),
             };
         public LineGeometryModel3D Pivot
         {
@@ -114,35 +104,42 @@ namespace GCode3D.Models.Program
             set => Set(ref _Pivot, value);
         }
 
-        private void Load()
-        {
-            if(File == null)
-                return;
-
-            Commands = [.. Parser.From(File)];
-            Preview = new()
-            {
-                Thickness = 1,
-                Smoothness = 2,
-                Color = System.Windows.Media.Colors.Blue,
-                IsThrowingShadow = false,
-                Geometry = ToLineBuilder().ToLineGeometry3D(),
-            };
-        }
-
         private void Update()
         {
-            Pivot = new()
+            Pivot.Geometry = CreatePivotGeometry();
+
+            // TODO: That's fast because it assumes this method is called at every instruction update. If it's not, you will need to update every color from completed instructions
+            // Note: Every segment has 2 points, so since we are using instruction index, we need to divide it by 2
+            var currentIndex = CurrentIndex * 2;
+            var lastIndex = CurrentIndex * 2 - 2;
+            var colors = new Color4Collection(Preview.Geometry.Colors);
+
+            // Update last instruction color
+            if(lastIndex >= 0)
             {
-                Thickness = 1,
-                Smoothness = 2,
-                Color = System.Windows.Media.Colors.Red,
-                IsThrowingShadow = false,
-                Geometry = CreatePivot(CurrentPosition).ToLineGeometry3D(),
-            };
+                colors[lastIndex] = new Color4(0.5f, 0.5f, 0.5f, 1);
+                colors[lastIndex + 1] = new Color4(0.5f, 0.5f, 0.5f, 1);
+            }
+            
+            // Update current instruction color
+            if(currentIndex < Preview.Geometry.Colors.Count)
+            {
+                colors[currentIndex] = new Color4(0, 1, 1, 1);
+                colors[currentIndex + 1] = new Color4(0, 1, 1, 1);
+            }
+            
+            // Assign colors back to trigger geometry update
+            Preview.Geometry.Colors = colors;
         }
 
-        public LineBuilder ToLineBuilder()
+        private LineGeometry3D CreateCADGeometry()
+            {
+                var g = CreateCADLineBuilder().ToLineGeometry3D();
+                g.Colors = new(g.Positions.Select(p => new Color4(0, 0, 1, 1)));
+                return g;
+            }
+
+        private LineBuilder CreateCADLineBuilder()
             {
                 var g = new LineBuilder();
                 Commands.ForEach(c =>
@@ -154,6 +151,18 @@ namespace GCode3D.Models.Program
                 });
                 return g;
             }
+
+        private LineGeometry3D CreatePivotGeometry() =>
+            CreatePivotLineBuilder().ToLineGeometry3D();
+
+        private LineBuilder CreatePivotLineBuilder()
+        {
+            var g = new LineBuilder();
+            g.AddLine(Vector3.Right + CurrentPosition, Vector3.Left + CurrentPosition);
+            g.AddLine(Vector3.Down + CurrentPosition, Vector3.Up + CurrentPosition);
+            g.AddLine(Vector3.BackwardLH + CurrentPosition, Vector3.ForwardLH + CurrentPosition);
+            return g;
+        }
 
         #region IRunnable
         public bool IsRunning
