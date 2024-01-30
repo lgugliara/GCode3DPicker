@@ -19,7 +19,7 @@ namespace GCode3D.Components
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (programsListBox.SelectedItem is not FileSystemInfo selected)
+            if (picker.SelectedItem is not FileSystemInfo selected)
                 return;
             
             VM?.Select(selected);      

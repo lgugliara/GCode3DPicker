@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:converters="clr-namespace:GCode3D.Converters"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     Background="Transparent">
 
     <UserControl.Resources>
@@ -37,14 +38,14 @@
 
         <!-- Picker Content -->
         <ListBox Grid.Row="1" Foreground="White" BorderThickness="0" Background="Transparent" VerticalAlignment="Top"
-            Margin="0, 30, 0, 0" ItemsSource="{Binding Current.Content}" Name="programsListBox" SelectionChanged="ListBox_SelectionChanged">
-            
+            Margin="0, 30, 0, 0" ItemsSource="{Binding Current.Content}" x:Name="picker" SelectionChanged="ListBox_SelectionChanged" av:ItemsSource="{av:SampleData ItemCount=10}">
+
             <!-- Picker Style -->
             <ListBox.Resources>
                 <!-- Custom style for the vertical scrollbar -->
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource {x:Type ScrollBar}}">
                     <Setter Property="Background" Value="Transparent" />
-                    
+
                     <!-- Picker Scrollbar Template -->
                     <Setter Property="Template">
                         <Setter.Value>
@@ -72,14 +73,14 @@
                     </Setter>
                 </Style>
             </ListBox.Resources>
-            
+
             <!-- Picker Item Template -->
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
+                <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                 <Border x:Name="border" CornerRadius="10" Opacity="0" Margin="5" BorderBrush="Transparent">
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -94,11 +95,11 @@
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="120" />
                                             </Grid.ColumnDefinitions>
-    
+
                                             <!-- Folder Icon -->
                                             <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
                                                 <iconPacks:PackIconBoxIcons.Style>
-                                                    <Style TargetType="iconPacks:PackIconBoxIcons">
+                                                    <Style TargetType="{x:Type iconPacks:PackIconBoxIcons}">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding ., Converter={StaticResource IsFileSystemInfoDirectory}}" Value="false">
                                                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -107,14 +108,14 @@
                                                     </Style>
                                                 </iconPacks:PackIconBoxIcons.Style>
                                             </iconPacks:PackIconBoxIcons>
-    
+
                                             <!-- Filename Label -->
                                             <Label Grid.Column="1"
                                                 x:Name="filename"
                                                 Content="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
                                                 Background="Transparent" Foreground="White"
                                                 Margin="5" FontSize="15" />
-    
+
                                             <!-- File Size -->
                                             <Label Grid.Column="2" HorizontalAlignment="Right"
                                                 Content="{Binding Length, Converter={StaticResource FileInfoLengthFormatter}}"
