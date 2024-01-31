@@ -69,8 +69,7 @@ namespace GCode3D.Models.Program
         private Task? Task
         {
             get => _Task;
-            set
-            {
+            set {
                 Set(ref _Task, value);
                 OnPropertyChanged(nameof(Action));
             }
@@ -78,8 +77,7 @@ namespace GCode3D.Models.Program
     
         public Vector3 CurrentPosition
         {
-            get
-            {
+            get {
                 // Deprecated: This is how you interpolate inside a single instruction, not used since we are updating one time per instruction
                 /* var from = CurrentCommand.From;
                 var to = CurrentCommand.To;
@@ -103,7 +101,7 @@ namespace GCode3D.Models.Program
             set => Set(ref _Preview, value);
         }
 
-        /* private LineGeometryModel3D _Pivot =
+        private LineGeometryModel3D _Pivot =
             new()
             {
                 Color = System.Windows.Media.Colors.Red,
@@ -112,25 +110,11 @@ namespace GCode3D.Models.Program
         {
             get => _Pivot;
             set => Set(ref _Pivot, value);
-        } */
-
-        public (
-            LineGeometryModel3D?,
-            Action<Func<LineGeometryModel3D?, LineGeometryModel3D?>>
-        ) Pivot = 
-            UseSingle<LineGeometryModel3D>.New(
-                new()
-                {
-                    Color = System.Windows.Media.Colors.Red,
-                }
-            );
+        }
 
         private void Update()
         {
-            /* if (Pivot.Item1 != null)
-                Pivot.Item1.Geometry = CreatePivotGeometry();
-            if (Pivot.Item2 != null)
-                Pivot.Item2(Pivot.Item1); */
+            Pivot.Geometry = CreatePivotGeometry();
 
             // TODO: That's fast because it assumes this method is called at every instruction update. If it's not, you will need to update every color from completed instructions
             // Note: Every segment has 2 points, so since we are using instruction index, we need to divide it by 2
