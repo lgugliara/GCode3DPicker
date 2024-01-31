@@ -69,7 +69,8 @@ namespace GCode3D.Models.Program
         private Task? Task
         {
             get => _Task;
-            set {
+            set
+            {
                 Set(ref _Task, value);
                 OnPropertyChanged(nameof(Action));
             }
@@ -77,7 +78,8 @@ namespace GCode3D.Models.Program
     
         public Vector3 CurrentPosition
         {
-            get {
+            get
+            {
                 // Deprecated: This is how you interpolate inside a single instruction, not used since we are updating one time per instruction
                 /* var from = CurrentCommand.From;
                 var to = CurrentCommand.To;
@@ -101,7 +103,7 @@ namespace GCode3D.Models.Program
             set => Set(ref _Preview, value);
         }
 
-        private LineGeometryModel3D _Pivot =
+        /* private LineGeometryModel3D _Pivot =
             new()
             {
                 Color = System.Windows.Media.Colors.Red,
@@ -110,11 +112,25 @@ namespace GCode3D.Models.Program
         {
             get => _Pivot;
             set => Set(ref _Pivot, value);
-        }
+        } */
+
+        public (
+            LineGeometryModel3D?,
+            Action<Func<LineGeometryModel3D?, LineGeometryModel3D?>>
+        ) Pivot = 
+            UseSingle<LineGeometryModel3D>.New(
+                new()
+                {
+                    Color = System.Windows.Media.Colors.Red,
+                }
+            );
 
         private void Update()
         {
-            Pivot.Geometry = CreatePivotGeometry();
+            /* if (Pivot.Item1 != null)
+                Pivot.Item1.Geometry = CreatePivotGeometry();
+            if (Pivot.Item2 != null)
+                Pivot.Item2(Pivot.Item1); */
 
             // TODO: That's fast because it assumes this method is called at every instruction update. If it's not, you will need to update every color from completed instructions
             // Note: Every segment has 2 points, so since we are using instruction index, we need to divide it by 2
@@ -123,14 +139,14 @@ namespace GCode3D.Models.Program
             var colors = new Color4Collection(Preview.Geometry.Colors);
 
             // Update last instruction color
-            if(lastIndex >= 0)
+            if (lastIndex >= 0)
             {
                 colors[lastIndex] = new Color4(0.5f, 0.5f, 0.5f, 1);
                 colors[lastIndex + 1] = new Color4(0.5f, 0.5f, 0.5f, 1);
             }
             
             // Update current instruction color
-            if(currentIndex < Preview.Geometry.Colors.Count)
+            if (currentIndex < Preview.Geometry.Colors.Count)
             {
                 colors[currentIndex] = new Color4(0, 1, 1, 1);
                 colors[currentIndex + 1] = new Color4(0, 1, 1, 1);
@@ -155,7 +171,7 @@ namespace GCode3D.Models.Program
                 var g = new LineBuilder();
                 Commands.ForEach(c =>
                 {
-                    if(c is MacroInstruction m)
+                if (c is MacroInstruction m)
                         m.Commands.ForEach(mc => g.AddLine(mc.From, mc.To));
                     else
                         g.AddLine(c.From, c.To);
