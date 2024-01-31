@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using GCode3D.Components;
 using GCode3D.Models.Interfaces;
 using HelixToolkit.SharpDX.Core;
@@ -12,6 +13,8 @@ namespace GCode3D.Models.Program
 {
     public class Program : StandardComponent, IRunnable
     {
+        public IRelayCommand? OnUpdate { get; set; }
+
         private FileInfo? _File;
         public FileInfo? File
         {
@@ -135,6 +138,9 @@ namespace GCode3D.Models.Program
             
             // Assign colors back to trigger geometry update
             Preview.Geometry.Colors = colors;
+
+            // Execute OnUpdate command
+            OnUpdate?.Execute(null);
         }
 
         private LineGeometry3D CreateCADGeometry()
@@ -172,7 +178,7 @@ namespace GCode3D.Models.Program
         #region IRunnable
         public bool IsRunning
         {
-            get => Task?.Status == TaskStatus.Running;    
+            get => Task != null && Task?.Status == TaskStatus.Running;    
         }
         public void Start(ICommand? onUpdate)
         {

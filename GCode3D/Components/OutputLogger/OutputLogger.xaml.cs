@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GCode3D.Components
@@ -14,5 +15,8 @@ namespace GCode3D.Components
         {
             InitializeComponent();
         }
+
+        private void LoggerList_LayoutUpdated(object sender, EventArgs e) =>
+            LoggerList.ScrollIntoView(VM?.Current?.LastOrDefault());
     }
 }

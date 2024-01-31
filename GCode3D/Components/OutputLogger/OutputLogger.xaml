@@ -6,7 +6,7 @@
 
     <!-- Completed Instructions Output -->
     <Border Grid.Row="1" CornerRadius="12" Height="300" Background="#eeeeee" Margin="10">
-        <ListBox ItemsSource="{Binding Current}" BorderThickness="0" Background="Transparent">
+        <ListBox x:Name="LoggerList" ItemsSource="{Binding Current}" BorderThickness="0" Background="Transparent" LayoutUpdated="LoggerList_LayoutUpdated">
     
             <!-- Program Line Template -->
             <ListBox.ItemContainerStyle>
