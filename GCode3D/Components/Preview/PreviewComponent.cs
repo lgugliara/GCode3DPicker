@@ -23,7 +23,7 @@ namespace GCode3D.Components
                     new RelayCommand(() =>
                     {
                         var targetPivotPosition = Current?.CurrentPosition ?? default;
-                        var targetCameraPosition = targetPivotPosition + Vector3.One;
+                        var targetCameraPosition = targetPivotPosition + Vector3.One * 5;
                             
                         Camera.Position = targetCameraPosition.ToPoint3D();
                         Camera.LookDirection = (targetPivotPosition - targetCameraPosition).ToVector3D();
