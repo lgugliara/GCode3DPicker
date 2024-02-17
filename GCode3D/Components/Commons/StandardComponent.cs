@@ -6,6 +6,7 @@ namespace GCode3D.Components
     public class StandardComponent : INotifyPropertyChanged, IDisposable
     {
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string info = "")
@@ -22,10 +23,13 @@ namespace GCode3D.Components
             OnPropertyChanged(propertyName);
             return true;
         }
+
         #endregion
         #region IDisposable
+
         public virtual void Dispose() =>
             GC.SuppressFinalize(this);
+
         #endregion
     }
 }
