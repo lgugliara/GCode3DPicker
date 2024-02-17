@@ -37,7 +37,7 @@
             <Button Grid.Column="0" Foreground="White" Background="Transparent" BorderThickness="0" Click="PickerBack_Click">
                 <iconPacks:PackIconBoxIcons Kind="RegularArrowBack" Width="40" Height="40" />
             </Button>
-            <TextBlock Grid.Column="1" Text="{Binding Current.Location.Name}" Foreground="White" FontSize="30" Margin="30" />
+            <TextBlock Grid.Column="1" Text="{Binding Picker.Location.Name}" Foreground="White" FontSize="30" Margin="30" />
             <Button IsEnabled="false" Grid.Column="2" Foreground="White" Background="Transparent" BorderThickness="0" Click="EditProgram_Click">
                 <iconPacks:PackIconBoxIcons Kind="RegularCodeAlt" Width="40" Height="40" />
             </Button>
@@ -45,7 +45,7 @@
 
         <!-- Picker Content -->
         <ListBox Grid.Row="1" Foreground="White" BorderThickness="0" Background="Transparent" VerticalAlignment="Top"
-            Margin="0, 30, 0, 0" ItemsSource="{Binding Current.Content}" x:Name="picker" SelectionChanged="ListBox_SelectionChanged" av:ItemsSource="{av:SampleData ItemCount=10}">
+            Margin="0, 30, 0, 0" ItemsSource="{Binding Picker.Content}" x:Name="picker" SelectionChanged="ListBox_SelectionChanged" av:ItemsSource="{av:SampleData ItemCount=10}">
 
             <!-- Picker Style -->
             <ListBox.Resources>

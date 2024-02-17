@@ -46,7 +46,7 @@
                     </Border>
                     
                     <!-- Program Progress -->
-                    <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Current, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
+                    <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Program, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
                     
                     <!-- Program Status -->
                     <Border Grid.Column="2" BorderThickness="1, 0, 0, 0" BorderBrush="#272537" VerticalAlignment="Center">
@@ -61,13 +61,13 @@
                                 <ColumnDefinition Width="120" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Content="{Binding Current.CurrentCommand.Name}" FontSize="14" />
+                            <Label Grid.Column="0" Content="{Binding Program.CurrentCommand.Name}" FontSize="14" />
                             <Label Grid.Column="1" Content="X" Foreground="Red" FontSize="14" />
-                            <Label Grid.Column="2" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateX}}" FontSize="14" />
+                            <Label Grid.Column="2" Content="{Binding Program.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateX}}" FontSize="14" />
                             <Label Grid.Column="3" Content="Y" Foreground="Green" FontSize="14" />
-                            <Label Grid.Column="4" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateY}}" FontSize="14" />
+                            <Label Grid.Column="4" Content="{Binding Program.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateY}}" FontSize="14" />
                             <Label Grid.Column="5" Content="Z" Foreground="Blue" FontSize="14" />
-                            <Label Grid.Column="6" Content="{Binding Current.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateZ}}" FontSize="14" />
+                            <Label Grid.Column="6" Content="{Binding Program.CurrentPosition, Converter={StaticResource ProgramCurrentCoordinateZ}}" FontSize="14" />
                         </Grid>
                     </Border>
                 </Grid>

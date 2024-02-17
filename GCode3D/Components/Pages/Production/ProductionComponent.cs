@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GCode3D.Components
 {
@@ -36,7 +36,7 @@ namespace GCode3D.Components
                             PreviewComponent.Program = 
                                 new()
                                 {
-                                    File = PickerComponent.Current?.Selection
+                                    File = PickerComponent.Picker?.Selection
                                 };
                     });
         }

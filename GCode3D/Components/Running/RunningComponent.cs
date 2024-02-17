@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Program;
@@ -21,15 +21,15 @@ namespace GCode3D.Components
         public OutputLoggerComponent? OutputLoggerComponent { get; set; } =
             new Use<OutputLoggerComponent>();
         
-        public Program? Current { get; set; } =
-            new Use<Program>(new Program());
+        public Program? Program { get; set; } =
+            new Use<Program>(new());
 
         #endregion
 
         #region Getters
 
         public string Action => 
-            Current?.IsRunning ?? false ?
+            Program?.IsRunning ?? false ?
                 "Stop" :
                 "Run";
 
@@ -39,18 +39,18 @@ namespace GCode3D.Components
 
         public void ToggleRun()
         {
-            if(Current?.IsRunning ?? false)
-                Current?.Stop();
+            if(Program?.IsRunning ?? false)
+                Program?.Stop();
             else
-                Current?.Start(
+                Program?.Start(
                     new RelayCommand(() =>
                         {
-                            OnPropertyChanged(nameof(Current));
+                            OnPropertyChanged(nameof(Program));
                             OnUpdate?.Execute(null);
                             
                             // Update Logger
-                            if(Current?.CurrentCommand != null)
-                                Application.Current.Dispatcher.Invoke(() => OutputLoggerComponent?.Current?.Add(Current.CurrentCommand));
+                            if(Program?.CurrentCommand != null)
+                                Application.Current.Dispatcher.Invoke(() => OutputLoggerComponent?.Current?.Add(Program.CurrentCommand));
                         })
                 );
         }
