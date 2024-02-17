@@ -1,48 +1,28 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using GCode3D.Models.Program;
-using System.Diagnostics;
+﻿using System.Windows.Controls;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GCode3D.Components
 {
-    public class MainWindowComponent : StandardComponent
+    public class MainWindowComponent : Use<MainWindowComponent>
     {
-        private PickerComponent _PickerComponent = new();
-        public PickerComponent PickerComponent
-        {
-            get => _PickerComponent;
-            set => Set(ref _PickerComponent, value);
-        }
+        public SidebarComponent? SidebarComponent { get; set; } = 
+            new Use<SidebarComponent>(new());
 
-        private PreviewComponent _PreviewComponent = new();
-        public PreviewComponent PreviewComponent
-        {
-            get => _PreviewComponent;
-            set => Set(ref _PreviewComponent, value);
-        }
+        public UserControl? CurrentPage { get; set; }
 
-        private RunningComponent _RunningComponent = new();
-        public RunningComponent RunningComponent
-        {
-            get => _RunningComponent;
-            set => Set(ref _RunningComponent, value);
-        }
+        public RunningComponent? RunningComponent { get; set; } =
+            new Use<RunningComponent>(new());
 
         public MainWindowComponent()
         {
-            PickerComponent.OnSelect =
-                new RelayCommand(() =>
-                    {
-                        Program program = new();
-                        PreviewComponent.Current = RunningComponent.Current = program;
-                        PreviewComponent.Current.File = PickerComponent.Current?.Selection;
-                    }
-                );
-
-            RunningComponent.OnUpdate =
-                new RelayCommand(() =>
+            SidebarComponent = new()
+            {
+                OnSelect = new RelayCommand<UserControl>((UserControl? page) =>
                 {
-                    //Debug.WriteLine($"Current command: [{PreviewComponent?.Current?.CurrentIndex}] {PreviewComponent?.Current?.CurrentCommand.Name}");
-                });
+                    CurrentPage = page;
+                })
+            };
+            CurrentPage = SidebarComponent?.Pages?.FirstOrDefault();
         }
     }
 }

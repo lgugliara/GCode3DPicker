@@ -4,8 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:components="clr-namespace:GCode3D.Components"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    mc:Ignorable="d" Height="Auto" Width="1200"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+    FontFamily="Montserrat"
+    mc:Ignorable="d" Height="900" Width="900"
     WindowStyle="None"
     ResizeMode="CanResizeWithGrip" Background="Transparent" AllowsTransparency="True">
     
@@ -18,14 +19,15 @@
             <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.2"/>
         </Storyboard>
     </Window.Resources>
+    
+    <Window.DataContext>
+        <components:MainWindowComponent />
+    </Window.DataContext>
 
-    <Window.FontFamily>
-        <FontFamily>Montserrat</FontFamily>
-    </Window.FontFamily>
-
-    <Border ClipToBounds="True" CornerRadius="30" Background="#272537">
+    <Border ClipToBounds="True" CornerRadius="30" Background="#272537" BorderThickness="2" BorderBrush="#474554">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -38,27 +40,58 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="1" Height="20" Width="20" CornerRadius="20" Background="Red" Margin="0, 30, 30, 0">
-                    <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="AppClose_Click" />
-                </Border>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12" MouseDown="DragWindow_MouseDown">
+                    <Border Height="16" Width="16" CornerRadius="20" Background="Orange" Margin="8">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="AppMinimize_Click" />
+                    </Border>
+                    <Border Height="16" Width="16" CornerRadius="20" Background="Green" Margin="8">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="AppMaximize_Click" />
+                    </Border>
+                    <Border Height="16" Width="16" CornerRadius="20" Background="Red" Margin="8">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="AppClose_Click" />
+                    </Border>
+                </StackPanel>
             </Grid>
             
-            <!-- Main Content -->
-            <Grid Grid.Row="1">
+            <!--Header Bar-->
+            <Grid Grid.Row="1" Margin="30">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="600" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-                <!-- Picker -->
-                <components:PickerControl Grid.Column="0" DataContext="{Binding PickerComponent}" />
-
-                <!-- Preview -->
-                <components:PreviewControl Grid.Column="1" DataContext="{Binding PreviewComponent}" />
-            </Grid>            
+                
+                <!-- Something -->
+                <Border Grid.Column="0" Width="50" Height="50" Background="Red" />
+                
+                <!-- Side Bar (as a row) -->
+                <components:SidebarControl Grid.Column="1" DataContext="{Binding SidebarComponent}" />
+                
+                <!-- Action Bar -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    
+                    <!-- Settings Button -->
+                    <Border Width="50" Height="50" Background="Transparent" CornerRadius="25" Margin="0,0,10,0">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="ToggleSettings_Click">    
+                            <iconPacks:PackIconBoxIcons Kind="RegularCog" />
+                        </Button>
+                    </Border>
+                    
+                    <!--User Button -->
+                    <Border Width="50" Height="50" Background="Transparent" CornerRadius="25">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="ToggleUser_Click">    
+                            <iconPacks:PackIconBoxIcons Kind="RegularUser" />
+                        </Button>
+                    </Border>
+                    
+                </StackPanel>
+            </Grid>
             
+            <!-- Current Page -->
+            <ContentControl Grid.Row="2" x:Name="currentPage" Content="{Binding CurrentPage}" />
+                      
             <!-- Running Program -->
-            <components:RunningControl Grid.Row="2" DataContext="{Binding RunningComponent}" />
+            <components:RunningControl Grid.Row="3" DataContext="{Binding RunningComponent}" />
         </Grid>
     </Border>
 </Window>
