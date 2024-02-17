@@ -3,7 +3,7 @@
 public class Use<T>(T? initialValue = default) : StandardComponent
 {
     private T? _Current = initialValue;
-    public T? Current
+    private T? Current
     {
         get => _Current;
         set => Set(ref _Current, value);
