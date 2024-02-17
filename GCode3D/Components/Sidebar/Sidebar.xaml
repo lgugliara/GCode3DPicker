@@ -27,8 +27,8 @@
                             <!-- Picker Item Content -->
                             <Border x:Name="page" CornerRadius="30" Opacity="0" Margin="5" BorderThickness="0">
                                 <StackPanel Orientation="Horizontal" Margin="15,5,15,5">
-                                    <iconPacks:PackIconBoxIcons Kind="SolidTerminal" Width="30" Height="30" Margin="10" VerticalAlignment="Center" />
-                                    <TextBlock x:Name="programName" Text="{Binding DataContext.Name, Mode=OneWay}" Background="Transparent" Foreground="White" Margin="5" FontSize="20" VerticalAlignment="Center" />
+                                    <iconPacks:PackIconBoxIcons x:Name="programicon" Kind="SolidTerminal" Width="30" Height="30" Margin="10" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="programname" Text="{Binding DataContext.Name, Mode=OneWay}" Background="Transparent" Foreground="White" Margin="5" FontSize="20" VerticalAlignment="Center" />
                                 </StackPanel>
                                 
                                 <Border.Style>
@@ -46,7 +46,8 @@
                             <!-- ListBox Item Styling -->
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="programName" Property="Foreground" Value="#272537" />
+                                    <Setter TargetName="programicon" Property="Foreground" Value="#272537" />
+                                    <Setter TargetName="programname" Property="Foreground" Value="#272537" />
                                     <Setter TargetName="page" Property="Background" Value="White" />
                                 </Trigger>
 
