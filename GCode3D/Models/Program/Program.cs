@@ -13,7 +13,13 @@ namespace GCode3D.Models.Program
 {
     public class Program : Use<Program>, IRunnable
     {
+        #region Commands
+
         public IRelayCommand? OnUpdate { get; set; }
+
+        #endregion
+
+        #region Properties
 
         private FileInfo? _File;
         public FileInfo? File
@@ -175,6 +181,8 @@ namespace GCode3D.Models.Program
             return g;
         }
 
+        #endregion
+
         #region IRunnable
         public bool IsRunning
         {
@@ -203,8 +211,10 @@ namespace GCode3D.Models.Program
                 }
             });
         }
+
         public void Stop() => 
             Task = null;
+
         #endregion
     }
 }
