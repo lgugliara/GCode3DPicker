@@ -1,11 +1,11 @@
-using System.IO;
+﻿using System.IO;
 using GCode3D.Components;
 
 namespace GCode3D.Models.Picker
 {
     public class Picker : Use<Picker>
     {
-        private static readonly string DefaultPath = @"C:/GCode3DPicker/GCode3D/resources/gcodes";
+        private static readonly string DefaultPath = @"C:/xxx/GCode3DPicker/GCode3D/resources/gcodes";
 
         private DirectoryInfo? _Location = new(DefaultPath);
         public DirectoryInfo? Location

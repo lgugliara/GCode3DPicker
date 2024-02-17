@@ -16,7 +16,9 @@ namespace GCode3D.Components
         public List<UserControl>? Pages { get; set; } = 
             new Use<List<UserControl>>(
                 [
-                    new ProductionControl()
+                    new SelectControl(),
+                    new PrepareControl(),
+                    new StatusControl(),
                 ]
             );
 
