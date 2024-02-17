@@ -4,7 +4,7 @@ using SharpDX;
 
 namespace GCode3D.Models.Program
 {
-    public class Instruction : StandardComponent, IInstructable
+    public class Instruction : Use<Instruction>, IInstructable
     {
         private object _OriginalValue = string.Empty;
         public virtual object OriginalValue

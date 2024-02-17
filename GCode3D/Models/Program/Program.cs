@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -11,7 +11,7 @@ using SharpDX;
 
 namespace GCode3D.Models.Program
 {
-    public class Program : StandardComponent, IRunnable
+    public class Program : Use<Program>, IRunnable
     {
         public IRelayCommand? OnUpdate { get; set; }
 
