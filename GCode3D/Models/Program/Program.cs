@@ -38,18 +38,14 @@ namespace GCode3D.Models.Program
             }
         }
 
-        private List<Instruction> _Commands = [];
-        public List<Instruction> Commands
-        {
-            get => _Commands;
-            private set => Set(ref _Commands, value);
-        }
+        public List<Instruction>? Commands { get; set; } = 
+            new Use<List<Instruction>>([]);
 
         public List<Instruction> CompletedCommands =>
-            Commands.Where(c => c.IsCompleted).ToList();
+            Commands?.Where(c => c.IsCompleted)?.ToList() ?? [];
 
         public List<Instruction> RemainingCommands =>
-            Commands.Where(c => !c.IsCompleted).ToList();
+            Commands?.Where(c => !c.IsCompleted)?.ToList() ?? [];
 
         private Instruction _CurrentCommand = new();
         public Instruction CurrentCommand
@@ -62,14 +58,11 @@ namespace GCode3D.Models.Program
             }
         }
         
-        private int _CurrentIndex = 0;
-        public int CurrentIndex
-        {
-            get => _CurrentIndex;
-            set => Set(ref _CurrentIndex, value);
-        }
+        public int CurrentIndex { get; set; } =
+            new Use<int>(0);
 
-        public Stopwatch Stopwatch { get; set; } = new();
+        public Stopwatch Stopwatch { get; set; } = 
+            new();
 
         private Task? _Task;
         private Task? Task
@@ -96,27 +89,17 @@ namespace GCode3D.Models.Program
             }
         }
 
-        private LineGeometryModel3D _Preview =
-            new()
+        public LineGeometryModel3D? Preview { get; set; } =
+            new Use<LineGeometryModel3D>(new()
             {
                 Color = System.Windows.Media.Colors.White,
-            };
-        public LineGeometryModel3D Preview
-        {
-            get => _Preview;
-            set => Set(ref _Preview, value);
-        }
+                });
 
-        private LineGeometryModel3D _Pivot =
-            new()
+        public LineGeometryModel3D? Pivot { get; set; } =
+            new Use<LineGeometryModel3D>(new()
             {
                 Color = System.Windows.Media.Colors.Red,
-            };
-        public LineGeometryModel3D Pivot
-        {
-            get => _Pivot;
-            set => Set(ref _Pivot, value);
-        }
+                });
 
         private void Update()
         {
@@ -159,7 +142,7 @@ namespace GCode3D.Models.Program
         private LineBuilder CreateCADLineBuilder()
             {
                 var g = new LineBuilder();
-                Commands.ForEach(c =>
+                Commands?.ForEach(c =>
                 {
                 if (c is MacroInstruction m)
                         m.Commands.ForEach(mc => g.AddLine(mc.From, mc.To));
@@ -193,7 +176,7 @@ namespace GCode3D.Models.Program
             Task = Task.Run(async () => 
             {
                 int index = -1;
-                foreach (var c in Commands)
+                foreach (var c in Commands ?? [])
                 {
                     CurrentCommand.IsRunning = false;
                     CurrentCommand.IsCompleted = true;
