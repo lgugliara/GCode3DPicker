@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 
 namespace GCode3D.Components
 {
@@ -7,10 +7,10 @@ namespace GCode3D.Components
         #region Properties
 
         public PickerComponent? PickerComponent { get; set; } = 
-            new Use<PickerComponent>(new PickerComponent());
+            new Use<PickerComponent>(new());
 
         public PreviewComponent? PreviewComponent { get; set; } = 
-            new Use<PreviewComponent>(new PreviewComponent());
+            new Use<PreviewComponent>(new());
 
         #endregion
 

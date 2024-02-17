@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using GCode3D.Models.Program;
@@ -19,7 +19,7 @@ namespace GCode3D.Components
             new Use<bool>(false);
 
         public OutputLoggerComponent? OutputLoggerComponent { get; set; } =
-            new Use<OutputLoggerComponent>();
+            new Use<OutputLoggerComponent>(new());
         
         public Program? Program { get; set; } =
             new Use<Program>(new());
