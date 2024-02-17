@@ -4,6 +4,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:components="clr-namespace:GCode3D.Components"
     xmlns:converters="clr-namespace:GCode3D.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     Background="Transparent">
 
     <UserControl.Resources>
@@ -37,12 +38,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
+                    <!--Expand Button-->
                     <Border Grid.Column="0" CornerRadius="20" Background="#272537">
-                        <Button IsEnabled="false" Foreground="White" Background="Transparent" BorderThickness="0">
+                        <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="ExpandToggle_Click">
                             <iconPacks:PackIconBoxIcons Kind="RegularChevronUp" Height="15" Width="15" Margin="10" />
                         </Button>
                     </Border>
+                    
+                    <!-- Program Progress -->
                     <Label Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center" Content="{Binding Current, Converter={StaticResource ProgramProgressDescription}}" FontSize="14" />
+                    
+                    <!-- Program Status -->
                     <Border Grid.Column="2" BorderThickness="1, 0, 0, 0" BorderBrush="#272537" VerticalAlignment="Center">
                         <Grid VerticalAlignment="Center" Margin="10, 0, 0, 0">
                             <Grid.ColumnDefinitions>
@@ -69,13 +75,25 @@
                 <!-- Program Run Action -->
                 <Border Grid.Column="2" CornerRadius="12" Background="Red" Margin="10">
                     <Button Foreground="White" Background="Transparent" BorderThickness="0" Click="RunToggle_Click">
-                        <Label Content="{Binding Current, Converter={StaticResource ProgramStatusAction}}" FontSize="14" Foreground="White" />
+                        <TextBlock Text="{Binding Action, Mode=OneWay}" FontSize="14" Foreground="White" />
                     </Button>
                 </Border>
             </Grid>
    
             <!-- Output Logger: Completed Instructions -->
-            <components:OutputLoggerControl Grid.Row="2" DataContext="{Binding OutputLoggerComponent}" />
+            <components:OutputLoggerControl Grid.Row="2" DataContext="{Binding OutputLoggerComponent}">
+                <components:OutputLoggerControl.Style>
+                    <Style TargetType="components:OutputLoggerControl">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </components:OutputLoggerControl.Style>
+            </components:OutputLoggerControl>
+
         </Grid>
     </Border>
 </UserControl>

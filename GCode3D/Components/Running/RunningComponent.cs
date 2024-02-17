@@ -5,23 +5,37 @@ using GCode3D.Models.Program;
 
 namespace GCode3D.Components
 {
-    public class RunningComponent : StandardComponent
+    public class RunningComponent : Use<RunningComponent>
     {
-        private OutputLoggerComponent? _OutputLoggerComponent = new();
-        public OutputLoggerComponent? OutputLoggerComponent
-        {
-            get => _OutputLoggerComponent;
-            set => Set(ref _OutputLoggerComponent, value);
-        }
+        #region Commands
 
         public ICommand? OnUpdate { get; set; }
+
+        #endregion
+
+        #region Properties
+
+        public bool IsExpanded { get; set; } =
+            new Use<bool>(false);
+
+        public OutputLoggerComponent? OutputLoggerComponent { get; set; } =
+            new Use<OutputLoggerComponent>();
         
-        private Program? _Current = new();
-        public Program? Current
-        {
-            get => _Current;
-            set => Set(ref _Current, value);
-        }
+        public Program? Current { get; set; } =
+            new Use<Program>(new Program());
+
+        #endregion
+
+        #region Getters
+
+        public string Action => 
+            Current?.IsRunning ?? false ?
+                "Stop" :
+                "Run";
+
+        #endregion
+
+        #region Methods
 
         public void ToggleRun()
         {
@@ -40,5 +54,10 @@ namespace GCode3D.Components
                         })
                 );
         }
+
+        public void ToggleExpand() =>
+            IsExpanded = !IsExpanded;
+
+        #endregion
     }
 }

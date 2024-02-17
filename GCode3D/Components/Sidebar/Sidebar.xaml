@@ -1,0 +1,77 @@
+<UserControl x:Class="GCode3D.Components.SidebarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:converters="clr-namespace:GCode3D.Converters"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:components="clr-namespace:GCode3D.Components" 
+    mc:Ignorable="av">
+
+    <UserControl.Resources>
+        <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
+        <converters:IsFileSystemInfoDirectory x:Key="IsFileSystemInfoDirectory" />
+        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
+    </UserControl.Resources>
+
+    <!-- Your UserControl content here -->
+    <ListBox x:Name="sidebar" BorderThickness="0" Background="Transparent" Foreground="White" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged" HorizontalAlignment="Center">
+        <!--Panel Template-->
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        
+        <!-- Picker Item Template -->
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                           
+                            <!-- Picker Item Content -->
+                            <Border x:Name="page" CornerRadius="30" Opacity="0" Margin="5" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" Margin="15,5,15,5">
+                                    <iconPacks:PackIconBoxIcons Kind="SolidTerminal" Width="30" Height="30" Margin="10" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="programName" Text="{Binding DataContext.Name, Mode=OneWay}" Background="Transparent" Foreground="White" Margin="5" FontSize="20" VerticalAlignment="Center" />
+                                </StackPanel>
+                                
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Gray" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <!-- ListBox Item Styling -->
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="programName" Property="Foreground" Value="#272537" />
+                                    <Setter TargetName="page" Property="Background" Value="White" />
+                                </Trigger>
+
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="page" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListBox>
+
+</UserControl>

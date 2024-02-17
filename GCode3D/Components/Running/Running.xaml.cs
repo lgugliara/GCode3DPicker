@@ -5,18 +5,16 @@ namespace GCode3D.Components
 {
     public partial class RunningControl : UserControl
     {
-        private RunningComponent? VM
-        {
-            get => DataContext as RunningComponent;
-            set => DataContext = value;
-        }
+        private new RunningComponent? DataContext =>
+            (RunningComponent)base.DataContext;
 
-        public RunningControl()
-        {
+        public RunningControl() =>
             InitializeComponent();
-        }
 
         private void RunToggle_Click(object sender, RoutedEventArgs e) =>
-            VM?.ToggleRun();
+            DataContext?.ToggleRun();
+
+        private void ExpandToggle_Click(object sender, RoutedEventArgs e) =>
+            DataContext?.ToggleExpand();
     }
 }
