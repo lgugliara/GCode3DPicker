@@ -8,12 +8,6 @@
     xmlns:components="clr-namespace:GCode3D.Components" 
     mc:Ignorable="av">
 
-    <UserControl.Resources>
-        <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
-        <converters:IsFileSystemInfoDirectory x:Key="IsFileSystemInfoDirectory" />
-        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
-    </UserControl.Resources>
-
     <!-- Your UserControl content here -->
     <ListBox x:Name="sidebar" BorderThickness="0" Background="Transparent" Foreground="White" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged" HorizontalAlignment="Center">
         <!--Panel Template-->

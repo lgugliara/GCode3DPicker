@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
         <converters:IsFileSystemInfoDirectory x:Key="IsFileSystemInfoDirectory" />
-        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
+        <converters:FileSystemInfoFormatter x:Key="FileSystemInfoFormatter" />
     </UserControl.Resources>
     
     <UserControl.DataContext>
@@ -124,10 +124,7 @@
                                                 Margin="5" FontSize="15" />
 
                                             <!-- File Size -->
-                                            <TextBlock Grid.Column="2" HorizontalAlignment="Right"
-                                                Text="{Binding Length, Converter={StaticResource FileInfoLengthFormatter}}"
-                                                Background="Transparent" Foreground="White"
-                                                Margin="5" FontSize="15" />
+                                                Text="{Binding ., Converter={StaticResource FileSystemInfoFormatter}}"
                                         </Grid>
 
                                         <!-- Picker Item Details -->

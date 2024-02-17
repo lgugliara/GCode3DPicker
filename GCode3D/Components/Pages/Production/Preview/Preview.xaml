@@ -8,7 +8,7 @@
     Background="Transparent">
 
     <UserControl.Resources>
-        <converters:FileInfoLengthFormatter x:Key="FileInfoLengthFormatter" />
+        <converters:FileSystemInfoFormatter x:Key="FileSystemInfoFormatter" />
         <converters:FileNameWithoutExtension x:Key="FileNameWithoutExtension" />
     </UserControl.Resources>
 
@@ -50,7 +50,7 @@
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Program.Current Lines" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" />
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Already Done" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" />
                     
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Program.File.Length, Converter={StaticResource FileInfoLengthFormatter}}" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Program.File.Length, Converter={StaticResource FileSystemInfoFormatter}}" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Program.File.LastWriteTime}" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="-" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                     <TextBlock Grid.Column="1" Grid.Row="3" Text="-" Foreground="#272537" FontSize="14" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
