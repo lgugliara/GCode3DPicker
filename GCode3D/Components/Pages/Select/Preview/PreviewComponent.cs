@@ -10,10 +10,9 @@ namespace GCode3D.Components
     {
         #region Properties
 
-        public Program Program { get; set; } = 
-            new();
+        private Program _Program = new();
 
-        /* public Program? Program
+        public Program? Program
         {
             get => _Program;
             set
@@ -44,7 +43,7 @@ namespace GCode3D.Components
                         //Camera.FieldOfView = Math.Atan2(diagonal / 2, boundingBox.SizeZ * 2) * (180 / Math.PI) * 2;
                     });
             }
-        } */
+        }
 
         public EffectsManager EffectsManager { get; } =
             new DefaultEffectsManager();

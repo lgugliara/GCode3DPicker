@@ -13,10 +13,10 @@
     </UserControl.Resources>
 
     <!-- Your UserControl content here -->
-    <Border CornerRadius="30" BorderThickness="0" Background="White" Margin="30">
+    <Border CornerRadius="30" BorderThickness="0" Background="White" Margin="30" MinWidth="600">
         <Grid Grid.Column="1" Margin="30">
             <Grid.RowDefinitions>
-                <RowDefinition Height="300" />
+                <RowDefinition Height="400" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>

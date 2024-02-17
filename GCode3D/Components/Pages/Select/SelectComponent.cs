@@ -2,7 +2,7 @@
 
 namespace GCode3D.Components
 {
-    public class ProductionPage : Use<ProductionPage>, IPage
+    public class SelectPage : Use<SelectPage>, IPage
     {
         #region Properties
 
@@ -17,13 +17,13 @@ namespace GCode3D.Components
         #region Getters
         
         public string Name =>
-            "Select program";
+            "Select";
 
         #endregion
 
         #region Contstructor
 
-        public ProductionPage()
+        public SelectPage()
         {
             if(PickerComponent != null)
                 PickerComponent.OnSelect =
