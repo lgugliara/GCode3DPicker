@@ -106,12 +106,23 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!-- Folder Icon -->
-                                            <iconPacks:PackIconBoxIcons Grid.Column="0" Kind="RegularFolder" Width="20" Height="20" Margin="10" VerticalAlignment="Center">
+                                            <iconPacks:PackIconBoxIcons 
+                                                Grid.Column="0"
+                                                x:Name="filesysicon" 
+                                                Width="20" 
+                                                Height="20" 
+                                                Margin="10" 
+                                                VerticalAlignment="Center"
+                                            >
                                                 <iconPacks:PackIconBoxIcons.Style>
                                                     <Style TargetType="{x:Type iconPacks:PackIconBoxIcons}">
+                                                        <Style.Setters>
+                                                            <Setter Property="Kind" Value="RegularFolder" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                        </Style.Setters>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding ., Converter={StaticResource IsFileSystemInfoDirectory}}" Value="false">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Setter Property="Kind" Value="RegularFile" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -119,14 +130,29 @@
                                             </iconPacks:PackIconBoxIcons>
 
                                             <!-- Filename -->
-                                            <TextBlock Grid.Column="1"
-                                                x:Name="filename"
+                                            <TextBlock 
+                                                Grid.Column="1"
+                                                x:Name="filesysname"
                                                 Text="{Binding Name, Converter={StaticResource FileNameWithoutExtension}}"
-                                                Background="Transparent" Foreground="White"
-                                                Margin="5" FontSize="15" />
+                                                Background="Transparent" 
+                                                Foreground="White"
+                                                VerticalAlignment="Center"
+                                                Margin="5" 
+                                                FontSize="15" 
+                                            />
 
                                             <!-- File Size -->
+                                            <TextBlock 
+                                                Grid.Column="2" 
+                                                x:Name="filesysdetail"
+                                                HorizontalAlignment="Right"
                                                 Text="{Binding ., Converter={StaticResource FileSystemInfoFormatter}}"
+                                                Background="Transparent" 
+                                                Foreground="White"
+                                                VerticalAlignment="Center"
+                                                Margin="5" 
+                                                FontSize="15" 
+                                            />
                                         </Grid>
 
                                         <!-- Picker Item Details -->
@@ -146,7 +172,9 @@
                                     </Trigger>
 
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="filename" Property="Foreground" Value="#272537" />
+                                        <Setter TargetName="filesysicon" Property="Foreground" Value="#272537" />
+                                        <Setter TargetName="filesysname" Property="Foreground" Value="#272537" />
+                                        <Setter TargetName="filesysdetail" Property="Foreground" Value="#272537" />
                                         <Setter TargetName="border" Property="Background" Value="White" />
                                     </Trigger>
 
