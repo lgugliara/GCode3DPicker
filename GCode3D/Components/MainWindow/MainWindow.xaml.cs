@@ -34,5 +34,8 @@ namespace GCode3D.Components
 
         private void ToggleUser_Click(object sender, RoutedEventArgs e)
             {}
+
+        private void ToggleInfo_Click(object sender, RoutedEventArgs e)
+            {}
     }
 }
