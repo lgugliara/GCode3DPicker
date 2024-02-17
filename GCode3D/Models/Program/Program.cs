@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -91,14 +91,14 @@ namespace GCode3D.Models.Program
 
         public LineGeometryModel3D? Preview { get; set; } =
             new Use<LineGeometryModel3D>(new()
-            {
-                Color = System.Windows.Media.Colors.White,
+                {
+                    Color = System.Windows.Media.Colors.White,
                 });
 
         public LineGeometryModel3D? Pivot { get; set; } =
             new Use<LineGeometryModel3D>(new()
-            {
-                Color = System.Windows.Media.Colors.Red,
+                {
+                    Color = System.Windows.Media.Colors.Red,
                 });
 
         private void Update()
@@ -165,12 +165,12 @@ namespace GCode3D.Models.Program
         }
 
         #endregion
-
+        
         #region IRunnable
-        public bool IsRunning
-        {
-            get => Task != null && Task?.Status == TaskStatus.Running;    
-        }
+
+        public bool IsRunning => 
+            Task != null && Task?.Status == TaskStatus.Running;
+
         public void Start(ICommand? onUpdate)
         {
             Task = Task.Run(async () => 
