@@ -96,7 +96,17 @@
             <ContentControl Grid.Row="2" x:Name="currentPage" Content="{Binding CurrentPage}" />
                       
             <!-- Running Program -->
-            <components:RunningControl Grid.Row="3" DataContext="{Binding RunningComponent}" />
+            <components:RunningControl Grid.Row="3" DataContext="{Binding RunningComponent}">
+                <components:RunningControl.Style>
+                    <Style TargetType="components:RunningControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RunningComponent.Program.File}" Value="{x:Null}">
+                                <Setter Property="Height" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </components:RunningControl.Style>
+            </components:RunningControl>
         </Grid>
     </Border>
 </Window>
